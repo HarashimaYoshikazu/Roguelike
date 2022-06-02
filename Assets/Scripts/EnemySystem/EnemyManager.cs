@@ -5,6 +5,20 @@ using UniRx.Triggers;
 
 public class EnemyManager : MonoBehaviour
 {
+    static EnemyManager _instans = null;
+    public static EnemyManager Instans => _instans;
+    private void Awake()
+    {
+        if(!_instans)
+        {
+            _instans = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
     [SerializeField]
     private Button _button;
 
@@ -14,15 +28,16 @@ public class EnemyManager : MonoBehaviour
     [SerializeField]
     private Transform _hierarchyTransform;
 
-    private ObjectPool _effectPool; 
+    private ObjectPool _enemyPool;
+    public ObjectPool Pool => _enemyPool;
 
     void Start()
     {
         //オブジェクトプールを生成
-        _effectPool = new ObjectPool(_enemyPrefab,_hierarchyTransform);
-
+        _enemyPool = new ObjectPool(_enemyPrefab,_hierarchyTransform);
+    
         //破棄されたときにPoolを解放する
-        this.OnDestroyAsObservable().Subscribe(_ => _effectPool.Dispose());
+        this.OnDestroyAsObservable().Subscribe(_ => _enemyPool.Dispose());
 
         //ボタンが押されたらエフェクト生成
         _button.OnClickAsObservable()
@@ -32,14 +47,10 @@ public class EnemyManager : MonoBehaviour
                     var position = new Vector3(Random.Range(-5f, 5f), 0, Random.Range(-5f, 5f));
 
                     //poolから1つ取得
-                    var effect = _effectPool.Rent();
+                    var effect = _enemyPool.Rent();
 
-                    //エフェクトを再生し、再生終了したらpoolに返却する
-                    effect.SetPosition(position)
-                    .Subscribe(__ =>
-                    {
-                        _effectPool.Return(effect);
-                    });
+                //エフェクトを再生し、再生終了したらpoolに返却する
+                effect.SetPosition(position);
             });
     }
 }
