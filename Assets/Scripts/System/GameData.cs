@@ -26,6 +26,13 @@ public class SkillInfo
 /// </summary>
 public class GameData
 {
+    static public List<SkillInfo> SkillSelectTable = new List<SkillInfo>()
+    {
+        new SkillInfo(){Type =SelectType.Skill,TypeID =1,Name ="あみ",Level=0,Probability =50},
+        new SkillInfo(){Type =SelectType.Passive,TypeID =1,Name ="スピードUP",Level=0,Probability =50},
+        new SkillInfo(){Type =SelectType.Execute,TypeID =1,Name ="回復",Level=0,Probability =50},
+    };
+
     //ToDo GSSから値を読み込む
     static private List<int> _expTable = new List<int>()
     {

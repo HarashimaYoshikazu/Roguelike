@@ -32,6 +32,10 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
+    /// <summary>
+    /// レベルアップパネルのボタンが押下されたときによばれる関数
+    /// </summary>
+    /// <param name="table"></param>
     public void LevelUpSelect(SkillInfo table)
     {
         switch (table.Type)
