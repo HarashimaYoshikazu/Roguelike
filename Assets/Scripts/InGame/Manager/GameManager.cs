@@ -4,14 +4,29 @@ using UnityEngine;
 
 public class GameManager : Singleton<GameManager>
 {
-    int _hp = 0;
-    int _exp = 0;
-    int _level = 0;
+    private int _hp = 0;
+    /// <summary>HP変数</summary>
+    public int HP => _hp;
 
+    private int _exp = 0;
+    /// <summary>経験値変数</summary>
+    public int Exp => _exp;
+
+    private int _level = 1;
+    /// <summary>レベル変数</summary>
+    public int Level => _level;
+
+    /// <summary>Player変数</summary>
     Player _player = null;
+    /// <summary>Playerの初期化</summary>
+    /// <param name="player">代入されるインスタンス</param>
     public void SetPlayer(Player player) { _player = player; _hp = player.InitHP; }
 
+    /// <summary>獲得したパッシブリスト</summary>
     List<int> _passive = new List<int>();
+
+    /// <summary>スキルボタンコントローラークラス</summary>
+    SkillButton _skillButton = null;
 
     public void ChangeHP(int value)
     {
@@ -29,6 +44,7 @@ public class GameManager : Singleton<GameManager>
         if(GameData.ExpTable.Count >_level && GameData.ExpTable[_level]< _exp)
         {
             _level++;
+            _skillButton.SelectStart();
         }
     }
 
