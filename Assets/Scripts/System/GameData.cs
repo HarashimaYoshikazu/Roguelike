@@ -10,6 +10,16 @@ public enum SelectType
     Passive = 2,
     Execute = 3,
 }
+[Serializable]
+public class SkillInfo
+{
+    public SelectType Type;
+    public int TypeID;
+    public string Name;
+    public int Level;
+    public int Probability;
+}
+
 
 /// <summary>
 /// マスターデータ

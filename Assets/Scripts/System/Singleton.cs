@@ -1,6 +1,10 @@
 using System;
 using UnityEngine;
 
+/// <summary>
+/// MonoBehaviorを継承しないSingletonクラス
+/// </summary>
+/// <typeparam name="T">instanceを作成する派生クラス</typeparam>
 public class Singleton<T>
                     : IDisposable
                     where T : Singleton<T>, new()
