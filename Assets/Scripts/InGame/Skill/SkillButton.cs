@@ -22,6 +22,11 @@ public class SkillButton : MonoBehaviour
         }
     }
 
+    void SelectStart()
+    {
+
+    }
+
     void OnClick()
     {
         //GameManager.Instance.LevelUpSelect();
