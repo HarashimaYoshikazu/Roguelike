@@ -1,0 +1,1 @@
+PlayerのAddSkill関数でSwitch使いたくない

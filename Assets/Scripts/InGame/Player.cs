@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
+using System;
 
 public class Player : MonoBehaviour
 {
@@ -8,34 +10,31 @@ public class Player : MonoBehaviour
     int _initHP = 40;
     public int InitHP => _initHP;
 
-    //List<>
+    List<ISkill> _skillList = new List<ISkill>();
 
-    //public void AddSkill(int skillId)
-    //{
-    //    var having = _skill.Where(s => s.SkillId == (SkillDef)skillId);
-    //    if (having.Count() > 0)
-    //    {
-    //        having.Single().Levelup();
-    //    }
-    //    else
-    //    {
-    //        ISkill newSkill = null;
-    //        switch ((SkillDef)skillId)
-    //        {
-    //            case SkillDef.ShotBullet:
-    //                newSkill = new ShotBullet();
-    //                break;
+    public void AddSkill(int skillId)
+    {
+        var having = _skillList.Where(s => s.SkillId == (SkillDef)skillId);
+        if (having.Count() > 0)
+        {
+            having.Single().LevelUp();
+        }
+        else
+        {
+            ISkill newSkill = null;
 
-    //            case SkillDef.AreaAttack:
-    //                newSkill = new AreaAttack();
-    //                break;
-    //        }
+            switch ((SkillDef)skillId)
+            {
+                case SkillDef.NetAttack:
+                    newSkill = new NetSkill();
+                    break;
+            }
 
-    //        if (newSkill != null)
-    //        {
-    //            newSkill.Setup();
-    //            _skill.Add(newSkill);
-    //        }
-    //    }
-    //}
+            if (newSkill != null)
+            {
+                newSkill.SetUp();
+                _skillList.Add(newSkill);
+            }
+        }
+    }
 }
