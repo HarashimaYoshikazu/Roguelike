@@ -12,18 +12,26 @@ public class Player : MonoBehaviour
 
     List<ISkill> _skillList = new List<ISkill>();
 
+    private void Update()
+    {
+        foreach(var skill in _skillList)
+        {
+            skill.Update();
+        }
+    }
+
     public void AddSkill(int skillId)
     {
-        var having = _skillList.Where(s => s.SkillId == (SkillDef)skillId);
-        if (having.Count() > 0)
+        var alraedyHaving = _skillList.Where(s => s.SkillId == (SkillDef)skillId); //引数で取ったSkillIDと合致するスキルを抽出
+        if (alraedyHaving.Count() > 0)
         {
-            having.Single().LevelUp();
+            alraedyHaving.Single().LevelUp(); //抽出したスキルは一つしかありえないためSingle関数を使用しレベルアップ
         }
         else
         {
-            ISkill newSkill = null;
+            ISkill newSkill = null; 
 
-            switch ((SkillDef)skillId)
+            switch ((SkillDef)skillId)　//初めてのスキルはnewしてリストに追加
             {
                 case SkillDef.NetAttack:
                     newSkill = new NetSkill();
