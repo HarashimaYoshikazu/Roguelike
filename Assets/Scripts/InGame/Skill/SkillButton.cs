@@ -80,6 +80,7 @@ public class SkillButton : MonoBehaviour
         Debug.Log($"ƒJƒEƒ“ƒg{_selectedSkill.Count}");
         Debug.Log($"ˆø”{selectedIndex}");
         GameManager.Instance.LevelUpSelect(_selectedSkill[selectedIndex-1]);
+        _selectPanel.SetActive(false);
     }
 
     /// <summary>
