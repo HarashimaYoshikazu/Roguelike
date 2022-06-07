@@ -6,30 +6,37 @@ using System.Linq;
 
 public class SkillButton : MonoBehaviour
 {
-    [SerializeField,Tooltip("スキルを選択するためのシーン上のボタンオブジェクトのリスト")]
+    [SerializeField, Tooltip("スキルを選択するためのシーン上のボタンオブジェクトのリスト")]
     List<GameObject> _selectButtonList = new List<GameObject>();
 
     /// <summary>スキル選択ボタンに付いているテキストコンポーネントのリスト</summary>
-    List<Text> _selectTextList = new List<Text> ();
+    List<Text> _selectTextList = new List<Text>();
 
     /// <summary>ランダムに選ばれるスキルクラスを格納するリスト</summary>
     List<SkillInfo> _selectedSkill = new List<SkillInfo>();
 
-    [SerializeField,Tooltip("スキルボタンの親オブジェクトパネル")]
+    [SerializeField, Tooltip("スキルボタンの親オブジェクトパネル")]
     GameObject _selectPanel = null;
+
+    private void Awake()
+    {
+
+    }
 
     private void Start()
     {
-
-        for(int i = 0;i<_selectButtonList.Count;i++)
+        GameManager.Instance.SetUP();
+        for (int i = 0; i < _selectButtonList.Count; i++)
         {
+            Debug.Log(i);
             _selectedSkill.Add(null);
-            _selectTextList.Add(_selectButtonList[i].GetComponent<Text>()) ;
+            _selectTextList.Add(_selectButtonList[i].GetComponentInChildren<Text>());
 
-            Button button = _selectButtonList[i].GetComponent<Button>(); 
-            button.onClick.AddListener(() =>                             
+            Button button = _selectButtonList[i].GetComponent<Button>();
+            button.onClick.AddListener(() =>
             { OnClick(i); });
-
+            
+            
         }
     }
 
@@ -70,6 +77,16 @@ public class SkillButton : MonoBehaviour
 
     void OnClick(int selectedIndex)
     {
-        GameManager.Instance.LevelUpSelect(_selectedSkill[selectedIndex]);
+        Debug.Log($"カウント{_selectedSkill.Count}");
+        Debug.Log($"引数{selectedIndex}");
+        GameManager.Instance.LevelUpSelect(_selectedSkill[selectedIndex-1]);
+    }
+
+    /// <summary>
+    /// テスト用の経験値獲得関数
+    /// </summary>
+    public void GetEXPDebug(int value)
+    {
+        GameManager.Instance.GetExp(value);
     }
 }

@@ -27,6 +27,12 @@ public class GameManager : Singleton<GameManager>
 
     /// <summary>スキルボタンコントローラークラス</summary>
     SkillButton _skillButton = null;
+    public void SetSkillButton(SkillButton skillButton) { _skillButton = skillButton; }
+
+    public void SetUP()
+    {
+        _skillButton = GameObject.FindObjectOfType<SkillButton>();
+    }
 
     public void ChangeHP(int value)
     {
@@ -57,6 +63,7 @@ public class GameManager : Singleton<GameManager>
         switch (table.Type)
         {
             case SelectType.Skill:
+                Debug.Log($"{table.Name}がレベルアップ");
                 //TODOスキルのレベル上げる
                 break;
 
