@@ -1,75 +1,89 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using UniRx;
 
+/// ステートマシンクラス（書籍、動画を参考）
 public class StateMachine<TOwner>
 {
-    //ステート本体
-    public ReactiveProperty<State> CurrentState { get; set; } = new ReactiveProperty<State>();
-
     /// <summary>
-    /// このステートマシンのオーナー
+    /// ステートを表すクラス
     /// </summary>
-    public TOwner Owner { get; }
-
-    //実行ブリッジ
-    //public void Execute() => CurrentState.Value.
-
-    public StateMachine(TOwner owner)
-    {
-        Owner = owner;
-    }
-
     public abstract class State
     {
-        public StateMachine<TOwner> stateMachine;
+        /// <summary>
+        /// このステートを管理しているステートマシン
+        /// </summary>
+        protected StateMachine<TOwner> StateMachine => stateMachine;
+        internal StateMachine<TOwner> stateMachine;
         /// <summary>
         /// 遷移の一覧
         /// </summary>
         internal Dictionary<int, State> transitions = new Dictionary<int, State>();
+        /// <summary>
+        /// このステートのオーナー
+        /// </summary>
+        protected TOwner Owner => stateMachine.Owner;
 
         /// <summary>
         /// ステート開始
         /// </summary>
-        public void Enter(State prevState)
+        internal void Enter(State prevState)
         {
             OnEnter(prevState);
         }
         /// <summary>
         /// ステートを開始した時に呼ばれる
         /// </summary>
-        public virtual void OnEnter(State prevState) { }
+        protected virtual void OnEnter(State prevState) { }
 
         /// <summary>
         /// ステート更新
         /// </summary>
-        public void Update()
+        internal void Update()
         {
             OnUpdate();
         }
         /// <summary>
         /// 毎フレーム呼ばれる
         /// </summary>
-        public virtual void OnUpdate() { }
+        protected virtual void OnUpdate() { }
 
         /// <summary>
         /// ステート終了
         /// </summary>
-        public void Exit()
+        internal void Exit(State nextState)
         {
-            OnExit();
+            OnExit(nextState);
         }
         /// <summary>
         /// ステートを終了した時に呼ばれる
         /// </summary>
-        public virtual void OnExit() { }
-
-        public abstract State GetState();
+        protected virtual void OnExit(State nextState) { }
     }
+
+    /// <summary>
+    /// どのステートからでも特定のステートへ遷移できるようにするための仮想ステート
+    /// </summary>
+    public sealed class AnyState : State { }
+
+    /// <summary>
+    /// このステートマシンのオーナー
+    /// </summary>
+    public TOwner Owner { get; }
+    /// <summary>
+    /// 現在のステート
+    /// </summary>
+    public State CurrentState { get; private set; }
 
     // ステートリスト
     private LinkedList<State> states = new LinkedList<State>();
+
+    /// <summary>
+    /// ステートマシンを初期化する
+    /// </summary>
+    /// <param name="owner">ステートマシンのオーナー</param>
+    public StateMachine(TOwner owner)
+    {
+        Owner = owner;
+    }
 
     /// <summary>
     /// ステートを追加する（ジェネリック版）
@@ -97,6 +111,10 @@ public class StateMachine<TOwner>
         return Add<T>();
     }
 
+    /// <summary>
+    /// 遷移を定義する
+    /// </summary>
+    /// <param name="eventId">イベントID</param>
     public void AddTransition<TFrom, TTo>(int eventId)
         where TFrom : State, new()
         where TTo : State, new()
@@ -113,10 +131,68 @@ public class StateMachine<TOwner>
         from.transitions.Add(eventId, to);
     }
 
-    public void ChangeState(State nextstate)
+    /// <summary>
+    /// どのステートからでも特定のステートへ遷移できるイベントを追加する
+    /// </summary>
+    /// <param name="eventId">イベントID</param>
+    public void AddAnyTransition<TTo>(int eventId) where TTo : State, new()
     {
-        CurrentState.Value.Exit();
-        nextstate.Enter(CurrentState.Value);
-        CurrentState.Value = nextstate;
+        AddTransition<AnyState, TTo>(eventId);
+    }
+
+    /// <summary>
+    /// ステートマシンの実行を開始する（ジェネリック版）
+    /// </summary>
+    public void StartSetUp<TFirst>() where TFirst : State, new()
+    {
+        Start(GetOrAddState<TFirst>());
+    }
+
+    /// <summary>
+    /// ステートマシンの実行を開始する
+    /// </summary>
+    /// <param name="firstState">起動時のステート</param>
+    /// <param name="param">パラメータ</param>
+    public void Start(State firstState)
+    {
+        CurrentState = firstState;
+        CurrentState.Enter(null);
+    }
+
+    /// <summary>
+    /// ステートを更新する
+    /// </summary>
+    public void Update()
+    {
+        CurrentState.Update();
+    }
+
+    /// <summary>
+    /// イベントを発行する
+    /// </summary>
+    /// <param name="eventId">イベントID</param>
+    public void Dispatch(int eventId)
+    {
+        State to;
+        if (!CurrentState.transitions.TryGetValue(eventId, out to))
+        {
+            if (!GetOrAddState<AnyState>().transitions.TryGetValue(eventId, out to))
+            {
+                // イベントに対応する遷移が見つからなかった
+                return;
+            }
+        }
+        Change(to);
+    }
+
+    /// <summary>
+    /// ステートを変更する
+    /// </summary>
+    /// <param name="nextState">遷移先のステート</param>
+    private void Change(State nextState)
+    {
+        CurrentState.Exit(nextState);
+        nextState.Enter(CurrentState);
+        CurrentState = nextState;
     }
 }
