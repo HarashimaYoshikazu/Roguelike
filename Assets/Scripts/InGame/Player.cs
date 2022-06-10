@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-using System;
 
 public class Player : MonoBehaviour
 {
@@ -11,6 +10,26 @@ public class Player : MonoBehaviour
     public int InitHP => _initHP;
 
     List<ISkill> _skillList = new List<ISkill>();
+    [SerializeField]
+    GameObject _cube;
+
+    private void Start()
+    {
+            StartCoroutine(Cube());
+    }
+
+    IEnumerator Cube()
+    {
+        for(int i = 0;i<100;i++)
+        {
+            yield return new WaitForSeconds(0.5f);
+            Debug.Log(this.transform.position);
+            float rand = Random.Range(0f, 360f);
+            Vector3 vec = CircleUtil.GetCirclePosition(rand, 10f, this.transform.position);
+            vec.y = 1f;
+            Instantiate(_cube, vec, Quaternion.identity);
+        }
+    }
 
     private void Update()
     {
