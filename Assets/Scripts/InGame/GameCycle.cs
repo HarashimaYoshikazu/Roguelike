@@ -1,5 +1,6 @@
 using UniRx;
 using UnityEngine;
+using System;
 using State = StateMachine<GameCycle>.State;
 
 public class GameCycle : MonoBehaviour
@@ -12,6 +13,7 @@ public class GameCycle : MonoBehaviour
     enum StateEvent:int
     {
         GameStart,
+        Pause,
         GameOver,
         ReStart,
     }
@@ -23,6 +25,7 @@ public class GameCycle : MonoBehaviour
         //‘JˆÚ‚ğ“o˜^
         _stateMachine.AddTransition<StartState, InGameState>((int)StateEvent.GameStart);
         _stateMachine.AddTransition<InGameState, ResultState>((int)StateEvent.GameOver);
+        _stateMachine.AddTransition<InGameState,PauseState>((int)StateEvent.Pause);
         _stateMachine.AddTransition<ResultState, StartState>((int)StateEvent.ReStart);
 
         //Å‰‚ÌState‚ğİ’èAEnteŠÖ”‚ğŒÄ‚Ño‚µ
@@ -68,16 +71,44 @@ public class GameCycle : MonoBehaviour
         }
     }
 
+    class PauseState : State
+    {
+        protected override void OnEnter(State prevState)
+        {
+            Debug.Log("ƒ|[ƒY’†Enter");
+            GameManager.Instance.Pause();
+        }
+        protected override void OnUpdate()
+        {
+            Debug.Log("ƒQ[ƒ€’†Update");
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                stateMachine.Dispatch((int)StateEvent.GameStart);
+            }
+        }
+
+        protected override void OnExit(State nextState)
+        {
+            Debug.Log("ƒ|[ƒY’†Exit");
+            GameManager.Instance.Resume();
+        }
+    }
+
+
     class InGameState : State
     {
         protected override void OnEnter(State prevState)
         {
             Debug.Log("ƒQ[ƒ€’†Enter");
         }
-        //protected override void OnUpdate()
-        //{
-        //    Debug.Log("ƒQ[ƒ€’†Update");
-        //}
+        protected override void OnUpdate()
+        {
+            Debug.Log("ƒQ[ƒ€’†Update");
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                stateMachine.Dispatch((int)StateEvent.Pause);
+            }
+        }
 
         protected override void OnExit(State nextState)
         {

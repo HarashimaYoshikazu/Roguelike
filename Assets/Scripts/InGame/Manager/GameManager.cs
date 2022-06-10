@@ -24,11 +24,13 @@ public class GameManager : Singleton<GameManager>
     /// <param name="player">代入されるインスタンス</param>
     public void SetPlayer(Player player) { _player = player; _hp = player.InitHP; }
 
-    /// <summary> </summary>
-    public Action PauseAction; 
     /// <summary>獲得したパッシブリスト</summary>
     List<int> _passive = new List<int>();
-    
+
+    /// <summary>ポーズ時のイベント</summary>
+    public event Action PauseAction;
+    /// <summary>ポーズ解除時のイベント</summary>
+    public event Action ResumeAction;
 
     /// <summary>スキルボタンコントローラークラス</summary>
     SkillButton _skillButton = null;
@@ -80,5 +82,14 @@ public class GameManager : Singleton<GameManager>
 
                 break;
         }
+    }
+
+    public void Pause()
+    {
+        PauseAction?.Invoke();
+    }
+    public void Resume()
+    {
+        ResumeAction?.Invoke();
     }
 }

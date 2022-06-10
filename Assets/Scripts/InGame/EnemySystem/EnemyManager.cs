@@ -2,12 +2,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using UniRx;
 using UniRx.Triggers;
-using System.Collections;
+using System.Collections.Generic;
 
 public class EnemyManager : MonoBehaviour
 {
     static EnemyManager _instans = null;
     public static EnemyManager Instans => _instans;
+
     private void Awake()
     {
         if (!_instans)
@@ -18,6 +19,13 @@ public class EnemyManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        GameManager.Instance.PauseAction += OnPause;
+        GameManager.Instance.ResumeAction += OnResume;
+    }
+    private void OnDestroy()
+    {
+        GameManager.Instance.PauseAction -= OnPause;
+        GameManager.Instance.ResumeAction -= OnResume;
     }
 
     [SerializeField]
@@ -31,6 +39,7 @@ public class EnemyManager : MonoBehaviour
 
     private EnemyPool _enemyPool;
     public EnemyPool Pool => _enemyPool;
+
 
     void Start()
     {
@@ -60,5 +69,21 @@ public class EnemyManager : MonoBehaviour
         //“G‚Ìƒ|ƒWƒVƒ‡ƒ“‚ğİ’è
         enemy.SetPosition(vec);
 
+    }
+
+    void OnPause()
+    {
+        foreach(var i in _enemyPool.EnemyList)
+        {
+            i.Pause();
+        }
+    }
+
+    void OnResume()
+    {
+        foreach (var i in _enemyPool.EnemyList)
+        {
+            i.Resume();
+        }
     }
 }
