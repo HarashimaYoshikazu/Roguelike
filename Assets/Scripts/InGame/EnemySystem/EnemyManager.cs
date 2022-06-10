@@ -9,7 +9,7 @@ public class EnemyManager : MonoBehaviour
     public static EnemyManager Instans => _instans;
     private void Awake()
     {
-        if(!_instans)
+        if (!_instans)
         {
             _instans = this;
         }
@@ -34,23 +34,23 @@ public class EnemyManager : MonoBehaviour
     void Start()
     {
         //オブジェクトプールを生成
-        _enemyPool = new ObjectPool(_enemyPrefab,_hierarchyTransform);
-    
-        //破棄されたときにPoolを解放する
-        this.OnDestroyAsObservable().Subscribe(_ => _enemyPool.Dispose());
+        _enemyPool = new ObjectPool(_enemyPrefab, _hierarchyTransform);
 
-        //ボタンが押されたらエフェクト生成
+        //破棄されたときにPoolを解放する
+        this.OnDestroyAsObservable().Subscribe(_ => _enemyPool.Dispose()).AddTo(this);
+
+        //ボタンが押されたら生成
         _button.OnClickAsObservable()
             .Subscribe(_ =>
             {
-                    //ランダムな場所
-                    var position = new Vector3(Random.Range(-5f, 5f), 0, Random.Range(-5f, 5f));
+                //ランダムな場所
+                var position = new Vector3(Random.Range(-5f, 5f), 0, Random.Range(-5f, 5f));
 
-                    //poolから1つ取得
-                    var effect = _enemyPool.Rent();
+                //poolから1つ取得
+                var enemy = _enemyPool.Rent();
 
                 //エフェクトを再生し、再生終了したらpoolに返却する
-                effect.SetPosition(position);
-            });
+                enemy.SetPosition(position);
+            }).AddTo(this);
     }
 }
