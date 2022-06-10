@@ -10,25 +10,11 @@ public class Player : MonoBehaviour
     public int InitHP => _initHP;
 
     List<ISkill> _skillList = new List<ISkill>();
-    [SerializeField]
-    GameObject _cube;
 
-    private void Start()
-    {
-            StartCoroutine(Cube());
-    }
 
-    IEnumerator Cube()
+    private void Awake()
     {
-        for(int i = 0;i<100;i++)
-        {
-            yield return new WaitForSeconds(0.5f);
-            Debug.Log(this.transform.position);
-            float rand = Random.Range(0f, 360f);
-            Vector3 vec = CircleUtil.GetCirclePosition(rand, 10f, this.transform.position);
-            vec.y = 1f;
-            Instantiate(_cube, vec, Quaternion.identity);
-        }
+        GameManager.Instance.SetPlayer(this);
     }
 
     private void Update()

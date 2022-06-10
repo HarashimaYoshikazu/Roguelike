@@ -21,8 +21,14 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         _speed = _initSpeed;
-        _rb = GetComponent<Rigidbody>();
-        _anim = GetComponent<Animator>();
+        if (!_rb)
+        {
+            _rb = GetComponent<Rigidbody>();
+        }
+        if (!_anim)
+        {
+            _anim = GetComponent<Animator>();
+        }     
     }
     private void FixedUpdate()
     {

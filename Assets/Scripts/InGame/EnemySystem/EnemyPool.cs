@@ -1,7 +1,7 @@
 using UniRx.Toolkit;
 using UnityEngine;
 
-public class ObjectPool : ObjectPool<EnemyController>
+public class EnemyPool : ObjectPool<EnemyController>
 {
     private readonly EnemyController _enemyPrefab = null;
     private readonly Transform _parent = null;
@@ -11,7 +11,7 @@ public class ObjectPool : ObjectPool<EnemyController>
     /// </summary>
     /// <param name="prefab">生成するオブジェクト</param>
     /// <param name="objectParent">生成元の親</param>
-    public ObjectPool(EnemyController prefab,Transform objectParent)
+    public EnemyPool(EnemyController prefab,Transform objectParent)
     {
         _enemyPrefab = prefab;
         _parent = objectParent;

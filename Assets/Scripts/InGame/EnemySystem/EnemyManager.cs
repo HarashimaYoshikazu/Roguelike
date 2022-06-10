@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UniRx;
 using UniRx.Triggers;
+using System.Collections;
 
 public class EnemyManager : MonoBehaviour
 {
@@ -28,13 +29,13 @@ public class EnemyManager : MonoBehaviour
     [SerializeField]
     private Transform _hierarchyTransform;
 
-    private ObjectPool _enemyPool;
-    public ObjectPool Pool => _enemyPool;
+    private EnemyPool _enemyPool;
+    public EnemyPool Pool => _enemyPool;
 
     void Start()
     {
         //オブジェクトプールを生成
-        _enemyPool = new ObjectPool(_enemyPrefab, _hierarchyTransform);
+        _enemyPool = new EnemyPool(_enemyPrefab, _hierarchyTransform);
 
         //破棄されたときにPoolを解放する
         this.OnDestroyAsObservable().Subscribe(_ => _enemyPool.Dispose()).AddTo(this);
@@ -43,14 +44,21 @@ public class EnemyManager : MonoBehaviour
         _button.OnClickAsObservable()
             .Subscribe(_ =>
             {
-                //ランダムな場所
-                var position = new Vector3(Random.Range(-5f, 5f), 0, Random.Range(-5f, 5f));
+                EnemyRent();
 
-                //poolから1つ取得
-                var enemy = _enemyPool.Rent();
-
-                //エフェクトを再生し、再生終了したらpoolに返却する
-                enemy.SetPosition(position);
             }).AddTo(this);
+    }
+    void EnemyRent()
+    {
+        Debug.Log(GameManager.Instance.Player.transform.position);
+        float rand = Random.Range(0f, 360f);
+        Vector3 vec = CircleUtil.GetCirclePosition(rand, 10f, GameManager.Instance.Player.transform.position);
+        vec.y = 1f;
+        //poolから1つ取得
+        var enemy = _enemyPool.Rent();
+
+        //敵のポジションを設定
+        enemy.SetPosition(vec);
+
     }
 }

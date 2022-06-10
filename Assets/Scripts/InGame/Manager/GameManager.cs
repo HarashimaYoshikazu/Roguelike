@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -18,12 +19,16 @@ public class GameManager : Singleton<GameManager>
 
     /// <summary>Player変数</summary>
     Player _player = null;
+    public Player Player => _player;
     /// <summary>Playerの初期化</summary>
     /// <param name="player">代入されるインスタンス</param>
     public void SetPlayer(Player player) { _player = player; _hp = player.InitHP; }
 
+    /// <summary> </summary>
+    public Action PauseAction; 
     /// <summary>獲得したパッシブリスト</summary>
     List<int> _passive = new List<int>();
+    
 
     /// <summary>スキルボタンコントローラークラス</summary>
     SkillButton _skillButton = null;
