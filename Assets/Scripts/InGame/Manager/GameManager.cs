@@ -17,11 +17,9 @@ public class GameManager : Singleton<GameManager>
     /// <summary>レベル変数</summary>
     public int Level => _level;
 
-    /// <summary>Player変数</summary>
+    /// <summary>Playerクラス</summary>
     Player _player = null;
     public Player Player => _player;
-    /// <summary>Playerの初期化</summary>
-    /// <param name="player">代入されるインスタンス</param>
     public void SetPlayer(Player player) { _player = player; _hp = player.InitHP; }
 
     /// <summary>UIManagerクラス</summary>
@@ -29,9 +27,20 @@ public class GameManager : Singleton<GameManager>
     public UIManager UIManager => _UIManager;
     public void SetUIManager(UIManager uIManager) { _UIManager = uIManager; }
 
+    /// <summary>ゲームサイクルクラス</summary>
     GameCycle _gameCycle = null;
     public GameCycle GameCycle => _gameCycle;
     public void SetGameCycle(GameCycle gameCycle) {_gameCycle = gameCycle; }
+
+    /// <summary>スキルボタンコントローラークラス</summary>
+    SkillButton _skillButton = null;
+    public SkillButton SkillButton => _skillButton;
+    public void SetSkillButton(SkillButton skillButton) { _skillButton = skillButton; }
+
+    /// <summary>エネミーマネージャークラス</summary>
+    EnemyManager _enemyManager = null;
+    public EnemyManager EnemyManager => _enemyManager;
+    public void SetEnemyManager(EnemyManager enemyma) { _enemyManager = enemyma; }
 
     /// <summary>獲得したパッシブリスト</summary>
     List<int> _passive = new List<int>();
@@ -40,24 +49,29 @@ public class GameManager : Singleton<GameManager>
     bool _isPauseFlag = false;
     public bool IsPauseFlag => _isPauseFlag;
 
-    /// <summary>スキルボタンコントローラークラス</summary>
-    SkillButton _skillButton = null;
-    public SkillButton SkillButton => _skillButton;
-    public void SetSkillButton(SkillButton skillButton) { _skillButton = skillButton; }
-
     public void SetUP()
     {
         _skillButton = GameObject.FindObjectOfType<SkillButton>();
+        _player = GameObject.FindObjectOfType<Player>();
+        _enemyManager = GameObject.FindObjectOfType<EnemyManager>();
     }
 
     public void ChangeHP(int value)
     {
         Mathf.Clamp(_hp,0, _player.InitHP);
         _hp += value;
+        Debug.Log($"現在のHP：{_hp}");
         if(_hp<=0)
         {
-            //TODO死亡処理
+            _gameCycle.StateMachine.Dispatch((int)StateEvent.GameOver);
         }
+    }
+
+    public void Reset()
+    {
+        _hp = _player.InitHP;
+        _player.InitPos();
+        _enemyManager.ResetAllEnemy();
     }
 
     public void GetExp(int value)

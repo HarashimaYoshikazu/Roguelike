@@ -7,6 +7,9 @@ public class EnemyController : MonoBehaviour
 
     [SerializeField, Tooltip("ドロップする経験値")]
     GameObject _dropItem = null;
+
+    [SerializeField, Tooltip("ダメージ")]
+    int _damage = 1;
     //bool _isMove = true;
 
     private void Start()
@@ -59,6 +62,7 @@ public class EnemyController : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            GameManager.Instance.ChangeHP(-(_damage));
             Instantiate(_dropItem, this.transform.position, Quaternion.identity);
             Death();
         }

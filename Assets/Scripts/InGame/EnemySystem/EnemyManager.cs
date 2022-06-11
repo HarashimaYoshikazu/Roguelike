@@ -6,8 +6,14 @@ using System.Collections.Generic;
 
 public class EnemyManager : MonoBehaviour
 {
+    [SerializeField]
+    List<EnemyController> list = new List<EnemyController>();
     static EnemyManager _instans = null;
     public static EnemyManager Instans => _instans;
+
+    float _timer = 0f;
+    [SerializeField, Tooltip("タイマーのインターバル")]
+    float _interval = 2f;
 
     private void Awake()
     {
@@ -19,13 +25,21 @@ public class EnemyManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        //GameManager.Instance.PauseAction += OnPause;
-        //GameManager.Instance.ResumeAction += OnResume;
-    }
-    private void OnDestroy()
-    {
-        //GameManager.Instance.PauseAction -= OnPause;
-        //GameManager.Instance.ResumeAction -= OnResume;
+
+        //オブジェクトプールを生成
+        _enemyPool = new EnemyPool(_enemyPrefab, _hierarchyTransform);
+
+        //破棄されたときにPoolを解放する
+        this.OnDestroyAsObservable().Subscribe(_ => _enemyPool.Dispose()).AddTo(this);
+
+        //ボタンが押されたら生成
+        _button.OnClickAsObservable()
+            .Subscribe(_ =>
+            {
+                EnemyRent();
+
+            }).AddTo(this);
+        list = _enemyPool.EnemyList;
     }
 
     [SerializeField]
@@ -41,21 +55,18 @@ public class EnemyManager : MonoBehaviour
     public EnemyPool Pool => _enemyPool;
 
 
-    void Start()
+    private void FixedUpdate()
     {
-        //オブジェクトプールを生成
-        _enemyPool = new EnemyPool(_enemyPrefab, _hierarchyTransform);
-
-        //破棄されたときにPoolを解放する
-        this.OnDestroyAsObservable().Subscribe(_ => _enemyPool.Dispose()).AddTo(this);
-
-        //ボタンが押されたら生成
-        _button.OnClickAsObservable()
-            .Subscribe(_ =>
+        if (!GameManager.Instance.IsPauseFlag)
+        {
+            _timer += Time.deltaTime;
+            if (_timer > _interval)
             {
+                _timer = 0f;
                 EnemyRent();
+            }
+        }
 
-            }).AddTo(this);
     }
     void EnemyRent()
     {
@@ -69,6 +80,15 @@ public class EnemyManager : MonoBehaviour
         //敵のポジションを設定
         enemy.SetPosition(vec);
 
+    }
+
+    public void ResetAllEnemy()
+    {
+        foreach (var i in _enemyPool.EnemyList)
+        {
+            _enemyPool.Return(i);
+        }
+        _enemyPool.EnemyList.Clear();
     }
 
     //void OnPause()

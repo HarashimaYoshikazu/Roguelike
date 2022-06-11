@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
-    [SerializeField, Tooltip("")]
+    [SerializeField, Tooltip("ƒpƒlƒ‹")]
     UnityEngine.UI.Text _pauseTextPanel = null;
 
     private void Awake()

@@ -25,7 +25,6 @@ public class SkillButton : MonoBehaviour
 
     private void Start()
     {
-        GameManager.Instance.SetUP();
         for (int i = 0; i < _selectButtonList.Count; i++)
         {
             _selectedSkill.Add(null);

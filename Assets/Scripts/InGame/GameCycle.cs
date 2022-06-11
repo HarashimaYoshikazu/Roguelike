@@ -12,7 +12,7 @@ public class GameCycle : MonoBehaviour
     private void Awake()
     {
         GameManager.Instance.SetGameCycle(this);
-
+        GameManager.Instance.SetUP();
         //初期化コンストラクタはこのクラスを保存
         _stateMachine = new StateMachine<GameCycle>(this);
 
@@ -54,7 +54,7 @@ public class GameCycle : MonoBehaviour
     {
         protected override void OnEnter(State prevState)
         {
-            Debug.Log("はじまりEnter");
+            Debug.Log("はじまりEnter");            
             GameManager.Instance.IsPause(true,"ボタンで開始");
         }
 
@@ -139,6 +139,7 @@ public class GameCycle : MonoBehaviour
         protected override void OnEnter(State prevState)
         {
             Debug.Log("リザルトEnter");
+            GameManager.Instance.IsPause(true, "ゲームオーバー");
         }
 
         protected override void OnUpdate()
@@ -149,6 +150,7 @@ public class GameCycle : MonoBehaviour
         protected override void OnExit(State nextState)
         {
             Debug.Log("リザルトExit");
+            GameManager.Instance.Reset();
         }
     }
 

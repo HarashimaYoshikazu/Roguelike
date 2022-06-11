@@ -5,9 +5,12 @@ using System.Linq;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField]
+    [SerializeField,Tooltip("初期化HP変数")]
     int _initHP = 40;
     public int InitHP => _initHP;
+
+    [SerializeField, Tooltip("初期化トランスフォーム")]
+    Transform _initTransform;
 
     List<ISkill> _skillList = new List<ISkill>();
 
@@ -15,7 +18,9 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         GameManager.Instance.SetPlayer(this);
+        Debug.Log(GameManager.Instance.Player);
     }
+
 
     private void Update()
     {
@@ -52,5 +57,10 @@ public class Player : MonoBehaviour
                 _skillList.Add(newSkill);
             }
         }
+    }
+
+    public void InitPos()
+    {
+        this.transform.position = _initTransform.position;
     }
 }
