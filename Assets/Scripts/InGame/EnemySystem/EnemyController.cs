@@ -7,7 +7,7 @@ public class EnemyController : MonoBehaviour
 
     [SerializeField, Tooltip("ドロップする経験値")]
     GameObject _dropItem = null;
-    bool _isMove = true;
+    //bool _isMove = true;
 
     private void Start()
     {
@@ -26,7 +26,7 @@ public class EnemyController : MonoBehaviour
 
     private void Move()
     {
-        if (_isMove)
+        if (!GameManager.Instance.IsPauseFlag)
         {
             Vector3 dir = GameManager.Instance.Player.transform.position - transform.position;
 
@@ -45,15 +45,15 @@ public class EnemyController : MonoBehaviour
         EnemyManager.Instans.Pool.RemoveEnemy(this);
     }
 
-    public void Pause()
-    {
-        _isMove = false;
-    }
+    //public void Pause()
+    //{
+    //    _isMove = false;
+    //}
 
-    public void Resume()
-    {
-        _isMove = true;
-    }
+    //public void Resume()
+    //{
+    //    _isMove = true;
+    //}
 
     private void OnTriggerEnter(Collider other)
     {

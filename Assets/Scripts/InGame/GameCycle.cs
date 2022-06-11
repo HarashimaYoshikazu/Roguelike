@@ -14,6 +14,7 @@ public class GameCycle : MonoBehaviour
     {
         GameStart,
         Pause,
+        Resume,
         GameOver,
         ReStart,
     }
@@ -26,6 +27,7 @@ public class GameCycle : MonoBehaviour
         _stateMachine.AddTransition<StartState, InGameState>((int)StateEvent.GameStart);
         _stateMachine.AddTransition<InGameState, ResultState>((int)StateEvent.GameOver);
         _stateMachine.AddTransition<InGameState,PauseState>((int)StateEvent.Pause);
+        _stateMachine.AddTransition<PauseState, InGameState>((int)StateEvent.Resume);
         _stateMachine.AddTransition<ResultState, StartState>((int)StateEvent.ReStart);
 
         //最初のStateを設定、Ente関数を呼び出し
@@ -58,16 +60,18 @@ public class GameCycle : MonoBehaviour
         protected override void OnEnter(State prevState)
         {
             Debug.Log("はじまりEnter");
+            GameManager.Instance.IsPause(true);
         }
 
-        //protected override void OnUpdate()
-        //{
-        //    Debug.Log("はじまりUpdate");
-        //}
+        protected override void OnUpdate()
+        {
+            Debug.Log("はじまりUpdate");
+        }
 
         protected override void OnExit(State nextState)
         {
             Debug.Log("はじまりExit");
+            GameManager.Instance.IsPause(false);
         }
     }
 
@@ -76,21 +80,21 @@ public class GameCycle : MonoBehaviour
         protected override void OnEnter(State prevState)
         {
             Debug.Log("ポーズ中Enter");
-            GameManager.Instance.Pause();
+            GameManager.Instance.IsPause(true);
         }
         protected override void OnUpdate()
         {
-            Debug.Log("ゲーム中Update");
+            Debug.Log("ポーズ中Update");
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                stateMachine.Dispatch((int)StateEvent.GameStart);
+                stateMachine.Dispatch((int)StateEvent.Resume);
             }
         }
 
         protected override void OnExit(State nextState)
         {
             Debug.Log("ポーズ中Exit");
-            GameManager.Instance.Resume();
+            GameManager.Instance.IsPause(false);
         }
     }
 
@@ -123,10 +127,10 @@ public class GameCycle : MonoBehaviour
             Debug.Log("リザルトEnter");
         }
 
-        //protected override void OnUpdate()
-        //{
-        //    Debug.Log("リザルトUpdate");
-        //}
+        protected override void OnUpdate()
+        {
+            Debug.Log("リザルトUpdate");
+        }
 
         protected override void OnExit(State nextState)
         {

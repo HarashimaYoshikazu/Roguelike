@@ -32,6 +32,14 @@ public class PlayerController : MonoBehaviour
     }
     private void FixedUpdate()
     {
+        if (!GameManager.Instance.IsPauseFlag)
+        {
+            Move();
+        } 
+    }
+
+    private void Move()
+    {
         h = Input.GetAxisRaw("Horizontal");
         v = Input.GetAxisRaw("Vertical");
         Vector3 dir = new Vector3(h, 0, v);

@@ -19,13 +19,13 @@ public class EnemyManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        GameManager.Instance.PauseAction += OnPause;
-        GameManager.Instance.ResumeAction += OnResume;
+        //GameManager.Instance.PauseAction += OnPause;
+        //GameManager.Instance.ResumeAction += OnResume;
     }
     private void OnDestroy()
     {
-        GameManager.Instance.PauseAction -= OnPause;
-        GameManager.Instance.ResumeAction -= OnResume;
+        //GameManager.Instance.PauseAction -= OnPause;
+        //GameManager.Instance.ResumeAction -= OnResume;
     }
 
     [SerializeField]
@@ -71,19 +71,19 @@ public class EnemyManager : MonoBehaviour
 
     }
 
-    void OnPause()
-    {
-        foreach(var i in _enemyPool.EnemyList)
-        {
-            i.Pause();
-        }
-    }
+    //void OnPause()
+    //{
+    //    foreach(var i in _enemyPool.EnemyList)
+    //    {
+    //        i.Pause();
+    //    }
+    //}
 
-    void OnResume()
-    {
-        foreach (var i in _enemyPool.EnemyList)
-        {
-            i.Resume();
-        }
-    }
+    //void OnResume()
+    //{
+    //    foreach (var i in _enemyPool.EnemyList)
+    //    {
+    //        i.Resume();
+    //    }
+    //}
 }

@@ -19,9 +19,12 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        foreach(var skill in _skillList)
+        if(!GameManager.Instance.IsPauseFlag)
         {
-            skill.Update();
+            foreach (var skill in _skillList)
+            {
+                skill.Update();
+            }
         }
     }
 

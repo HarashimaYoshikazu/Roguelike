@@ -4,17 +4,16 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
-    bool isPause = false;
-    private void FixedUpdate()
+    [SerializeField, Tooltip("")]
+    GameObject _pauseTextPanel = null;
+
+    private void Awake()
     {
-        if(Input.GetKeyDown(KeyCode.Escape) &&!isPause)
-        {
-            GameManager.Instance.Pause();
-        }
-        else if(Input.GetKeyDown(KeyCode.Escape) && isPause)
-        {
-            GameManager.Instance.Resume();
-        }
-        
+        GameManager.Instance.SetUIManager(this);
+    }
+
+    public void SetActiveText(bool isActive)
+    {
+        _pauseTextPanel.SetActive(isActive);
     }
 }

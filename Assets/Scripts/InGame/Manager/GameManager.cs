@@ -24,13 +24,17 @@ public class GameManager : Singleton<GameManager>
     /// <param name="player">代入されるインスタンス</param>
     public void SetPlayer(Player player) { _player = player; _hp = player.InitHP; }
 
+    /// <summary>UIManagerクラス</summary>
+    UIManager _UIManager = null;
+    public UIManager UIManager => _UIManager;
+    public void SetUIManager(UIManager uIManager) { _UIManager = uIManager; }
+
     /// <summary>獲得したパッシブリスト</summary>
     List<int> _passive = new List<int>();
 
-    /// <summary>ポーズ時のイベント</summary>
-    public event Action PauseAction;
-    /// <summary>ポーズ解除時のイベント</summary>
-    public event Action ResumeAction;
+    /// <summary>ポーズ判定フラグ</summary>
+    bool _isPauseFlag = false;
+    public bool IsPauseFlag => _isPauseFlag;
 
     /// <summary>スキルボタンコントローラークラス</summary>
     SkillButton _skillButton = null;
@@ -84,12 +88,18 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
-    public void Pause()
+    public void IsPause(bool ispause)
     {
-        PauseAction?.Invoke();
+        _isPauseFlag = ispause;
+        _UIManager?.SetActiveText(ispause);
     }
-    public void Resume()
-    {
-        ResumeAction?.Invoke();
-    }
+
+    //public void Pause()
+    //{
+    //    PauseAction?.Invoke();
+    //}
+    //public void Resume()
+    //{
+    //    ResumeAction?.Invoke();
+    //}
 }

@@ -28,7 +28,6 @@ public class SkillButton : MonoBehaviour
         GameManager.Instance.SetUP();
         for (int i = 0; i < _selectButtonList.Count; i++)
         {
-            Debug.Log(i);
             _selectedSkill.Add(null);
             _selectTextList.Add(_selectButtonList[i].GetComponentInChildren<Text>());
 
