@@ -84,20 +84,4 @@ public class EnemyManager : MonoBehaviour
     {
        _enemyPool.ReturnAllEnemy();
     }
-
-    //void OnPause()
-    //{
-    //    foreach(var i in _enemyPool.EnemyList)
-    //    {
-    //        i.Pause();
-    //    }
-    //}
-
-    //void OnResume()
-    //{
-    //    foreach (var i in _enemyPool.EnemyList)
-    //    {
-    //        i.Resume();
-    //    }
-    //}
 }
