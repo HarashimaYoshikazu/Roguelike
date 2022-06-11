@@ -29,6 +29,10 @@ public class GameManager : Singleton<GameManager>
     public UIManager UIManager => _UIManager;
     public void SetUIManager(UIManager uIManager) { _UIManager = uIManager; }
 
+    GameCycle _gameCycle = null;
+    public GameCycle GameCycle => _gameCycle;
+    public void SetGameCycle(GameCycle gameCycle) {_gameCycle = gameCycle; }
+
     /// <summary>獲得したパッシブリスト</summary>
     List<int> _passive = new List<int>();
 
@@ -38,6 +42,7 @@ public class GameManager : Singleton<GameManager>
 
     /// <summary>スキルボタンコントローラークラス</summary>
     SkillButton _skillButton = null;
+    public SkillButton SkillButton => _skillButton;
     public void SetSkillButton(SkillButton skillButton) { _skillButton = skillButton; }
 
     public void SetUP()
@@ -61,7 +66,7 @@ public class GameManager : Singleton<GameManager>
         if(GameData.ExpTable.Count >_level && GameData.ExpTable[_level]< _exp)
         {
             _level++;
-            _skillButton.SelectStart();
+            _gameCycle.StateMachine.Dispatch((int)StateEvent.LevelUp);
         }
     }
 
@@ -88,10 +93,11 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
-    public void IsPause(bool ispause)
+    public void IsPause(bool ispause, string pausetext)
     {
         _isPauseFlag = ispause;
-        _UIManager?.SetActiveText(ispause);
+        
+        _UIManager?.SetActiveText(ispause,pausetext);
     }
 
     //public void Pause()

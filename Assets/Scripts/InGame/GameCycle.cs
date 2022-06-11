@@ -6,26 +6,21 @@ using State = StateMachine<GameCycle>.State;
 public class GameCycle : MonoBehaviour
 {
     StateMachine<GameCycle> _stateMachine = null;
+    public StateMachine<GameCycle> StateMachine => _stateMachine;
 
-    /// <summary>
-    /// 遷移をするためのイベント
-    /// </summary>
-    enum StateEvent:int
-    {
-        GameStart,
-        Pause,
-        Resume,
-        GameOver,
-        ReStart,
-    }
+
     private void Awake()
     {
+        GameManager.Instance.SetGameCycle(this);
+
         //初期化コンストラクタはこのクラスを保存
         _stateMachine = new StateMachine<GameCycle>(this);
 
         //遷移を登録
         _stateMachine.AddTransition<StartState, InGameState>((int)StateEvent.GameStart);
         _stateMachine.AddTransition<InGameState, ResultState>((int)StateEvent.GameOver);
+        _stateMachine.AddTransition<InGameState, LevelUpState>((int)StateEvent.LevelUp);
+        _stateMachine.AddTransition<LevelUpState,InGameState>((int)StateEvent.GameStart);
         _stateMachine.AddTransition<InGameState,PauseState>((int)StateEvent.Pause);
         _stateMachine.AddTransition<PauseState, InGameState>((int)StateEvent.Resume);
         _stateMachine.AddTransition<ResultState, StartState>((int)StateEvent.ReStart);
@@ -60,7 +55,7 @@ public class GameCycle : MonoBehaviour
         protected override void OnEnter(State prevState)
         {
             Debug.Log("はじまりEnter");
-            GameManager.Instance.IsPause(true);
+            GameManager.Instance.IsPause(true,"ボタンで開始");
         }
 
         protected override void OnUpdate()
@@ -71,7 +66,7 @@ public class GameCycle : MonoBehaviour
         protected override void OnExit(State nextState)
         {
             Debug.Log("はじまりExit");
-            GameManager.Instance.IsPause(false);
+            GameManager.Instance.IsPause(false,"");
         }
     }
 
@@ -80,7 +75,7 @@ public class GameCycle : MonoBehaviour
         protected override void OnEnter(State prevState)
         {
             Debug.Log("ポーズ中Enter");
-            GameManager.Instance.IsPause(true);
+            GameManager.Instance.IsPause(true,"ポーズ中");
         }
         protected override void OnUpdate()
         {
@@ -94,10 +89,29 @@ public class GameCycle : MonoBehaviour
         protected override void OnExit(State nextState)
         {
             Debug.Log("ポーズ中Exit");
-            GameManager.Instance.IsPause(false);
+            GameManager.Instance.IsPause(false,"");
         }
     }
 
+    class LevelUpState : State
+    {
+        protected override void OnEnter(State prevState)
+        {
+            Debug.Log("レベルアップEnter");
+            GameManager.Instance.IsPause(true, "レベル選択");
+            GameManager.Instance.SkillButton.SelectStart();
+        }
+        protected override void OnUpdate()
+        {
+            Debug.Log("レベルアップUpdate");
+        }
+
+        protected override void OnExit(State nextState)
+        {
+            GameManager.Instance.IsPause(false, "レベル選択");
+            Debug.Log("レベルアップExit");
+        }
+    }
 
     class InGameState : State
     {
@@ -139,4 +153,16 @@ public class GameCycle : MonoBehaviour
     }
 
 
+}
+/// <summary>
+/// 遷移をするためのイベント
+/// </summary>
+public enum StateEvent : int
+{
+    GameStart,
+    Pause,
+    Resume,
+    LevelUp,
+    GameOver,
+    ReStart,
 }
