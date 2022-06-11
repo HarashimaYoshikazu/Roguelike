@@ -6,8 +6,6 @@ using System.Collections.Generic;
 
 public class EnemyManager : MonoBehaviour
 {
-    [SerializeField]
-    List<EnemyController> list = new List<EnemyController>();
     static EnemyManager _instans = null;
     public static EnemyManager Instans => _instans;
 
@@ -39,7 +37,7 @@ public class EnemyManager : MonoBehaviour
                 EnemyRent();
 
             }).AddTo(this);
-        list = _enemyPool.EnemyList;
+        
     }
 
     [SerializeField]
@@ -84,11 +82,7 @@ public class EnemyManager : MonoBehaviour
 
     public void ResetAllEnemy()
     {
-        foreach (var i in _enemyPool.EnemyList)
-        {
-            _enemyPool.Return(i);
-        }
-        _enemyPool.EnemyList.Clear();
+       _enemyPool.ReturnAllEnemy();
     }
 
     //void OnPause()

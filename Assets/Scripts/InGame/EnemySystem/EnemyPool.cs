@@ -29,6 +29,14 @@ public class EnemyPool : ObjectPool<EnemyController>
         return enemy;
     }
 
+    public void ReturnAllEnemy()
+    {
+        foreach(var i in _enemyList)
+        {
+            i.Death();
+        }
+    }
+
     public void RemoveEnemy(EnemyController enemy)
     {
         _enemyList.Remove(enemy);

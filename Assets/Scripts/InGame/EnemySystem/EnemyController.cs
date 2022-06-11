@@ -45,7 +45,7 @@ public class EnemyController : MonoBehaviour
     public void Death()
     {
         EnemyManager.Instans.Pool.Return(this);
-        EnemyManager.Instans.Pool.RemoveEnemy(this);
+        //EnemyManager.Instans.Pool.RemoveEnemy(this);
     }
 
     //public void Pause()
