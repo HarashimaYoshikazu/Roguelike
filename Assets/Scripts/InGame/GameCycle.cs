@@ -12,7 +12,11 @@ public class GameCycle : MonoBehaviour
     private void Awake()
     {
         GameManager.Instance.SetGameCycle(this);
-        GameManager.Instance.SetUP();
+    }
+
+    private void Start()
+    {
+        //GameManager.Instance.SetUP();
         //初期化コンストラクタはこのクラスを保存
         _stateMachine = new StateMachine<GameCycle>(this);
 
@@ -20,8 +24,8 @@ public class GameCycle : MonoBehaviour
         _stateMachine.AddTransition<StartState, InGameState>((int)StateEvent.GameStart);
         _stateMachine.AddTransition<InGameState, ResultState>((int)StateEvent.GameOver);
         _stateMachine.AddTransition<InGameState, LevelUpState>((int)StateEvent.LevelUp);
-        _stateMachine.AddTransition<LevelUpState,InGameState>((int)StateEvent.GameStart);
-        _stateMachine.AddTransition<InGameState,PauseState>((int)StateEvent.Pause);
+        _stateMachine.AddTransition<LevelUpState, InGameState>((int)StateEvent.GameStart);
+        _stateMachine.AddTransition<InGameState, PauseState>((int)StateEvent.Pause);
         _stateMachine.AddTransition<PauseState, InGameState>((int)StateEvent.Resume);
         _stateMachine.AddTransition<ResultState, StartState>((int)StateEvent.ReStart);
 

@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class EnemyController : MonoBehaviour
+public class EnemyController : MonoBehaviour,IDestroy
 {
     Rigidbody _rigidbody;
 
@@ -42,21 +42,6 @@ public class EnemyController : MonoBehaviour
         this.transform.position = position;
     }
 
-    public void Death()
-    {
-        EnemyManager.Instans.Pool.Return(this);
-        //EnemyManager.Instans.Pool.RemoveEnemy(this);
-    }
-
-    //public void Pause()
-    //{
-    //    _isMove = false;
-    //}
-
-    //public void Resume()
-    //{
-    //    _isMove = true;
-    //}
 
     private void OnTriggerEnter(Collider other)
     {
@@ -64,7 +49,12 @@ public class EnemyController : MonoBehaviour
         {
             GameManager.Instance.ChangeHP(-(_damage));
             Instantiate(_dropItem, this.transform.position, Quaternion.identity);
-            Death();
+            DestroyObject();
         }
+    }
+
+    public void DestroyObject()
+    {
+        GameManager.Instance.EnemyManager.EnemyPool.Return(this);
     }
 }

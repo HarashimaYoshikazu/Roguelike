@@ -6,26 +6,46 @@ using System.Collections.Generic;
 
 public class EnemyManager : MonoBehaviour
 {
-    static EnemyManager _instans = null;
-    public static EnemyManager Instans => _instans;
+
+    [SerializeField,Tooltip("デバッグ用")]
+    Button _button;
+
+    [Header("敵関係")]
+    [SerializeField,Tooltip("敵のプレハブ")]
+    EnemyController _enemyPrefab;
+
+    [SerializeField,Tooltip("敵の生成先の親オブジェクト")]
+    Transform _enemyParent;
 
     float _timer = 0f;
     [SerializeField, Tooltip("タイマーのインターバル")]
     float _interval = 2f;
 
+    [Header("経験値関係")]
+    [SerializeField, Tooltip("敵が落とす経験値のプレハブ")]
+    Exp _expPrefab;
+
+    [SerializeField, Tooltip("敵が落とす経験値の生成先の親オブジェクト")]
+    Transform _expParent;
+
+    /// <summary>敵のプール</summary>
+    GenericObjectPool<EnemyController> _enemyPool;
+    public GenericObjectPool<EnemyController> EnemyPool => _enemyPool;
+
+    /// <summary>敵が落とす経験値のプール</summary>
+    GenericObjectPool<Exp> _expObjectPool;
+    public GenericObjectPool<Exp> ExpPool => _expObjectPool;
+
+    
+
     private void Awake()
     {
-        if (!_instans)
-        {
-            _instans = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        GameManager.Instance.SetEnemyManager(this);
 
         //オブジェクトプールを生成
-        _enemyPool = new EnemyPool(_enemyPrefab, _hierarchyTransform);
+        _enemyPool = new GenericObjectPool<EnemyController>(_enemyPrefab, _enemyParent);
+
+        _expObjectPool = new GenericObjectPool<Exp>(_expPrefab,_expParent);
 
         //破棄されたときにPoolを解放する
         this.OnDestroyAsObservable().Subscribe(_ => _enemyPool.Dispose()).AddTo(this);
@@ -37,21 +57,8 @@ public class EnemyManager : MonoBehaviour
                 EnemyRent();
 
             }).AddTo(this);
-        
+
     }
-
-    [SerializeField]
-    private Button _button;
-
-    [SerializeField]
-    private EnemyController _enemyPrefab;
-
-    [SerializeField]
-    private Transform _hierarchyTransform;
-
-    private EnemyPool _enemyPool;
-    public EnemyPool Pool => _enemyPool;
-
 
     private void FixedUpdate()
     {
@@ -82,6 +89,6 @@ public class EnemyManager : MonoBehaviour
 
     public void ResetAllEnemy()
     {
-       _enemyPool.ReturnAllEnemy();
+       _enemyPool.ReturnAllObject();
     }
 }

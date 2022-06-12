@@ -17,6 +17,15 @@ public class GameManager : Singleton<GameManager>
     /// <summary>レベル変数</summary>
     public int Level => _level;
 
+    /// <summary>獲得したパッシブリスト</summary>
+    List<int> _passive = new List<int>();
+
+    /// <summary>ポーズ判定フラグ</summary>
+    bool _isPauseFlag = false;
+    public bool IsPauseFlag => _isPauseFlag;
+
+
+
     /// <summary>Playerクラス</summary>
     Player _player = null;
     public Player Player => _player;
@@ -42,19 +51,6 @@ public class GameManager : Singleton<GameManager>
     public EnemyManager EnemyManager => _enemyManager;
     public void SetEnemyManager(EnemyManager enemyma) { _enemyManager = enemyma; }
 
-    /// <summary>獲得したパッシブリスト</summary>
-    List<int> _passive = new List<int>();
-
-    /// <summary>ポーズ判定フラグ</summary>
-    bool _isPauseFlag = false;
-    public bool IsPauseFlag => _isPauseFlag;
-
-    public void SetUP()
-    {
-        _skillButton = GameObject.FindObjectOfType<SkillButton>();
-        _player = GameObject.FindObjectOfType<Player>();
-        _enemyManager = GameObject.FindObjectOfType<EnemyManager>();
-    }
 
     public void ChangeHP(int value)
     {
@@ -67,6 +63,9 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
+    /// <summary>
+    /// リトライ時にPlayerや敵をリセットする関数
+    /// </summary>
     public void Reset()
     {
         _hp = _player.InitHP;
@@ -113,13 +112,4 @@ public class GameManager : Singleton<GameManager>
         
         _UIManager?.SetActiveText(ispause,pausetext);
     }
-
-    //public void Pause()
-    //{
-    //    PauseAction?.Invoke();
-    //}
-    //public void Resume()
-    //{
-    //    ResumeAction?.Invoke();
-    //}
 }

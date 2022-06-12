@@ -20,7 +20,7 @@ public class SkillButton : MonoBehaviour
 
     private void Awake()
     {
-
+        GameManager.Instance.SetSkillButton(this);
     }
 
     private void Start()
