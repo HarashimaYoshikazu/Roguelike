@@ -10,13 +10,12 @@ public class BulletSkill : ISkill
     float _interval = 1f;
     int _bulletValue = 1;
 
-    
-    public void LevelUp()
+    public void SetUp()
     {
-
+        
     }
 
-    public void SetUp()
+    public void LevelUp()
     {
 
     }
@@ -45,7 +44,11 @@ public class BulletSkill : ISkill
                 }
             }
 
-
+            for (int i = 0;i<_bulletValue;i++)
+            {
+                var bullet = GameManager.Instance.Player.BulletPool.Rent();
+                bullet.Shoot(targets[i].gameObject);
+            }
 
             _timer = 0;
         }

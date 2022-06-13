@@ -49,7 +49,7 @@ public class EnemyController : MonoBehaviour,IDestroy
         {
             GameManager.Instance.ChangeHP(-(_damage));
             Instantiate(_dropItem, this.transform.position, Quaternion.identity);
-            DestroyObject();
+            GameManager.Instance.EnemyManager.EnemyPool.Return(this);
         }
     }
 

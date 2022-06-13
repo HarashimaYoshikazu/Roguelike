@@ -14,11 +14,19 @@ public class Player : MonoBehaviour
 
     List<ISkill> _skillList = new List<ISkill>();
 
+    [SerializeField,Tooltip("弾のプレハブ")]
+    BulletController _bulletController = null;
+    [SerializeField, Tooltip("弾の親オブジェクト")]
+    Transform _bulletParent = null;
+
+    GenericObjectPool<BulletController> _bulletPool;
+    public GenericObjectPool<BulletController> BulletPool => _bulletPool;
 
     private void Awake()
     {
+        _bulletPool = new GenericObjectPool<BulletController>(_bulletController,_bulletParent);
         GameManager.Instance.SetPlayer(this);
-        Debug.Log(GameManager.Instance.Player);
+        Debug.Log(GameManager.Instance.Player);    
     }
 
 
