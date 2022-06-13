@@ -32,6 +32,7 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
+        Debug.Log(_skillList.Count);
         if(!GameManager.Instance.IsPauseFlag)
         {
             foreach (var skill in _skillList)
@@ -56,6 +57,9 @@ public class Player : MonoBehaviour
             {
                 case SkillDef.NetAttack:
                     newSkill = new NetSkill();
+                    break;
+                case SkillDef.Bullet:
+                    newSkill = new BulletSkill();
                     break;
             }
 

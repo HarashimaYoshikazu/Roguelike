@@ -6377,7 +6377,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _initHP: 40
   _initTransform: {fileID: 0}
-  _bulletPrefab: {fileID: 0}
+  _bulletController: {fileID: 0}
   _bulletParent: {fileID: 0}
 --- !u!114 &8934012128654858539
 MonoBehaviour:

@@ -75,7 +75,7 @@ public class EnemyManager : MonoBehaviour
     }
     void EnemyRent()
     {
-        Debug.Log(GameManager.Instance.Player.transform.position);
+        //Debug.Log(GameManager.Instance.Player.transform.position);
         float rand = Random.Range(0f, 360f);
         Vector3 vec = CircleUtil.GetCirclePosition(rand, 10f, GameManager.Instance.Player.transform.position);
         vec.y = 1f;
