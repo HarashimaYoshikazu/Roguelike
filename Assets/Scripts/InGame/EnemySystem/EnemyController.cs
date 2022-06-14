@@ -50,8 +50,7 @@ public class EnemyController : MonoBehaviour, IDestroy
     {
         if (other.CompareTag("Player"))
         {
-            GameManager.Instance.ChangeHP(-(_damage));
-            Instantiate(_dropItem, this.transform.position, Quaternion.identity);
+            GameManager.Instance.ChangeHP(-(_damage));         
         }
     }
 
@@ -66,6 +65,7 @@ public class EnemyController : MonoBehaviour, IDestroy
 
     public void DestroyObject()
     {
+        Instantiate(_dropItem, this.transform.position, Quaternion.identity);
         GameManager.Instance.EnemyManager.EnemyPool.Return(this);
     }
 }

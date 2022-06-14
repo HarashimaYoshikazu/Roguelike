@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class BulletSkill : ISkill
 {
     public SkillDef SkillId => SkillDef.Bullet;
 
     float _timer = 0f;
     float _interval = 1f;
-    int _bulletValue = 1;
+    int _bulletValue = 5;
 
     public void SetUp()
     {
