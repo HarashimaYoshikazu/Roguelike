@@ -1,14 +1,17 @@
 using System;
 using UnityEngine;
 
-public class EnemyController : MonoBehaviour,IDestroy
+public class EnemyController : MonoBehaviour, IDestroy
 {
     Rigidbody _rigidbody;
 
     [SerializeField, Tooltip("ドロップする経験値")]
     GameObject _dropItem = null;
 
-    [SerializeField, Tooltip("ダメージ")]
+    [SerializeField]
+    int _hp = 1;
+
+    [SerializeField, Tooltip("プレイヤーに与えるダメージ")]
     int _damage = 1;
     //bool _isMove = true;
 
@@ -49,7 +52,15 @@ public class EnemyController : MonoBehaviour,IDestroy
         {
             GameManager.Instance.ChangeHP(-(_damage));
             Instantiate(_dropItem, this.transform.position, Quaternion.identity);
-            GameManager.Instance.EnemyManager.EnemyPool.Return(this);
+        }
+    }
+
+    public void Damage(int dmg)
+    {
+        _hp -= dmg;
+        if (_hp<=0)
+        {
+            DestroyObject();
         }
     }
 

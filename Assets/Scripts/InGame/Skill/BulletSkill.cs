@@ -17,7 +17,7 @@ public class BulletSkill : ISkill
 
     public void LevelUp()
     {
-
+        _bulletValue++;
     }
 
     public void Update()
@@ -46,8 +46,12 @@ public class BulletSkill : ISkill
 
             for (int i = 0;i<_bulletValue;i++)
             {
-                var bullet = GameManager.Instance.Player.BulletPool.Rent();
-                bullet.Shoot(targets[i].gameObject);
+                if (targets[i])
+                {
+                    var bullet = GameManager.Instance.Player.BulletPool.Rent();
+                    bullet.Shoot(targets[i].gameObject);
+                }
+
             }
 
             _timer = 0;

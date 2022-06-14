@@ -93,7 +93,7 @@ public class GameManager : Singleton<GameManager>
         {
             case SelectType.Skill:
                 Debug.Log($"{table.Name}がレベルアップ");
-                //TODOスキルのレベル上げる
+                _player.AddSkill(table.TypeID);
                 break;
 
             case SelectType.Passive:

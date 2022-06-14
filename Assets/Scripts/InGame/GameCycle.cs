@@ -58,18 +58,18 @@ public class GameCycle : MonoBehaviour
     {
         protected override void OnEnter(State prevState)
         {
-            Debug.Log("はじまりEnter");            
+            //Debug.Log("はじまりEnter");            
             GameManager.Instance.IsPause(true,"ボタンで開始");
         }
 
         protected override void OnUpdate()
         {
-            Debug.Log("はじまりUpdate");
+            //Debug.Log("はじまりUpdate");
         }
 
         protected override void OnExit(State nextState)
         {
-            Debug.Log("はじまりExit");
+            //Debug.Log("はじまりExit");
             GameManager.Instance.IsPause(false,"");
         }
     }
@@ -78,12 +78,12 @@ public class GameCycle : MonoBehaviour
     {
         protected override void OnEnter(State prevState)
         {
-            Debug.Log("ポーズ中Enter");
+            //Debug.Log("ポーズ中Enter");
             GameManager.Instance.IsPause(true,"ポーズ中");
         }
         protected override void OnUpdate()
         {
-            Debug.Log("ポーズ中Update");
+            //Debug.Log("ポーズ中Update");
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 stateMachine.Dispatch((int)StateEvent.Resume);
@@ -92,7 +92,7 @@ public class GameCycle : MonoBehaviour
 
         protected override void OnExit(State nextState)
         {
-            Debug.Log("ポーズ中Exit");
+            //Debug.Log("ポーズ中Exit");
             GameManager.Instance.IsPause(false,"");
         }
     }
@@ -101,19 +101,19 @@ public class GameCycle : MonoBehaviour
     {
         protected override void OnEnter(State prevState)
         {
-            Debug.Log("レベルアップEnter");
+            //Debug.Log("レベルアップEnter");
             GameManager.Instance.IsPause(true, "レベル選択");
             GameManager.Instance.SkillButton.SelectStart();
         }
         protected override void OnUpdate()
         {
-            Debug.Log("レベルアップUpdate");
+            //Debug.Log("レベルアップUpdate");
         }
 
         protected override void OnExit(State nextState)
         {
             GameManager.Instance.IsPause(false, "レベル選択");
-            Debug.Log("レベルアップExit");
+            //Debug.Log("レベルアップExit");
         }
     }
 
@@ -121,11 +121,11 @@ public class GameCycle : MonoBehaviour
     {
         protected override void OnEnter(State prevState)
         {
-            Debug.Log("ゲーム中Enter");
+            //Debug.Log("ゲーム中Enter");
         }
         protected override void OnUpdate()
         {
-            Debug.Log("ゲーム中Update");
+            //Debug.Log("ゲーム中Update");
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 stateMachine.Dispatch((int)StateEvent.Pause);
@@ -134,7 +134,7 @@ public class GameCycle : MonoBehaviour
 
         protected override void OnExit(State nextState)
         {
-            Debug.Log("ゲーム中Exit");
+            //Debug.Log("ゲーム中Exit");
         }
     }
 
@@ -142,18 +142,18 @@ public class GameCycle : MonoBehaviour
     {
         protected override void OnEnter(State prevState)
         {
-            Debug.Log("リザルトEnter");
+            //Debug.Log("リザルトEnter");
             GameManager.Instance.IsPause(true, "ゲームオーバー");
         }
 
         protected override void OnUpdate()
         {
-            Debug.Log("リザルトUpdate");
+            //Debug.Log("リザルトUpdate");
         }
 
         protected override void OnExit(State nextState)
         {
-            Debug.Log("リザルトExit");
+            //Debug.Log("リザルトExit");
             GameManager.Instance.Reset();
         }
     }

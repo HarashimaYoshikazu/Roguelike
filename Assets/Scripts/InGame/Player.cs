@@ -24,15 +24,14 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
+        AddSkill(2);
         _bulletPool = new GenericObjectPool<BulletController>(_bulletController,_bulletParent);
         GameManager.Instance.SetPlayer(this);
-        Debug.Log(GameManager.Instance.Player);    
     }
 
 
     private void Update()
     {
-        Debug.Log(_skillList.Count);
         if(!GameManager.Instance.IsPauseFlag)
         {
             foreach (var skill in _skillList)
