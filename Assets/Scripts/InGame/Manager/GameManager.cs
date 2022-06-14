@@ -51,7 +51,6 @@ public class GameManager : Singleton<GameManager>
     public EnemyManager EnemyManager => _enemyManager;
     public void SetEnemyManager(EnemyManager enemyma) { _enemyManager = enemyma; }
 
-
     public void ChangeHP(int value)
     {
         Mathf.Clamp(_hp,0, _player.InitHP);

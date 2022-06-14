@@ -9,7 +9,7 @@ public class BulletSkill : ISkill
 
     float _timer = 0f;
     float _interval = 1f;
-    int _bulletValue = 5;
+    int _bulletValue = 1;
 
     public void SetUp()
     {
@@ -33,6 +33,10 @@ public class BulletSkill : ISkill
             float prevMinDis = -1;
             foreach (var i in enemyList)
             {
+                if(!i.gameObject.activeSelf)
+                {
+                    continue;
+                }
                 Vector3 vec = i.transform.position - GameManager.Instance.Player.transform.position;
                 if (prevMinDis == -1 || vec.sqrMagnitude < prevMinDis)
                 {

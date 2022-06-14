@@ -36,8 +36,6 @@ public class EnemyManager : MonoBehaviour
     GenericObjectPool<Exp> _expObjectPool;
     public GenericObjectPool<Exp> ExpPool => _expObjectPool;
 
-    
-
     private void Awake()
     {
         GameManager.Instance.SetEnemyManager(this);
@@ -62,6 +60,7 @@ public class EnemyManager : MonoBehaviour
 
     private void FixedUpdate()
     {
+        Debug.Log("êî"+_enemyPool.ObjectList.Count);
         if (!GameManager.Instance.IsPauseFlag)
         {
             _timer += Time.deltaTime;

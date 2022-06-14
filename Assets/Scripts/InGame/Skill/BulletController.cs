@@ -6,7 +6,8 @@ using System.Linq;
 public class BulletController : MonoBehaviour, IDestroy
 {
     [SerializeField]
-    float _speed = 5f;
+    float _initSpeed = 5f;
+    float _speed = 0f;
     [SerializeField, Tooltip("“G‚É—^‚¦‚éƒ_ƒ[ƒW")]
     int _damage = 1;
 
@@ -16,9 +17,15 @@ public class BulletController : MonoBehaviour, IDestroy
     float _timer = 0f;
 
     EnemyController _target;
+    private void Start()
+    {
+        _speed = _initSpeed;
+    }
 
     void Update()
     {
+        Debug.Log(_speed);
+        _speed = Random.Range(_initSpeed-4f, _initSpeed+10f);
         transform.position += _targetVec * _speed * Time.deltaTime;
 
         _target = null;
@@ -27,7 +34,6 @@ public class BulletController : MonoBehaviour, IDestroy
         _timer += Time.deltaTime;
         if (_timer>_interval)
         {
-            Debug.Log("aa");
             _timer = 0f;
             DestroyObject();
         }
