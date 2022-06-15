@@ -19,6 +19,10 @@ public class Player : MonoBehaviour
     [SerializeField, Tooltip("弾の親オブジェクト")]
     Transform _bulletParent = null;
 
+    [SerializeField,Tooltip("近接攻撃の当たり判定オブジェクト")]
+    Net[] _weapons = null;
+    public Net[] Weapons => _weapons;
+
     GenericObjectPool<BulletController> _bulletPool;
     public GenericObjectPool<BulletController> BulletPool => _bulletPool;
 
