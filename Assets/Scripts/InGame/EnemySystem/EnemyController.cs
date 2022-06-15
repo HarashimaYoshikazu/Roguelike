@@ -37,8 +37,8 @@ public class EnemyController : MonoBehaviour, IDestroy
         if (!GameManager.Instance.IsPauseFlag)
         {
             Vector3 dir = GameManager.Instance.Player.transform.position - transform.position;
-
-            this.transform.forward = dir;
+            dir.y = 0f;
+            if (dir != Vector3.zero) this.transform.forward = dir;
             _rigidbody.velocity = dir.normalized * 3f;
         }
     }

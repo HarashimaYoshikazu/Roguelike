@@ -77,7 +77,7 @@ public class EnemyManager : MonoBehaviour
         //Debug.Log(GameManager.Instance.Player.transform.position);
         float rand = Random.Range(0f, 360f);
         Vector3 vec = CircleUtil.GetCirclePosition(rand, 10f, GameManager.Instance.Player.transform.position);
-        vec.y = 1f;
+        vec.y = 0f;
         //pool‚©‚ç1‚ÂŽæ“¾
         var enemy = _enemyPool.Rent();
 
