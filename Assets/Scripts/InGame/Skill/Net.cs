@@ -10,8 +10,9 @@ public class Net : MonoBehaviour
     int _damage = 0;
 
     [SerializeField]
-    float _initEffectTime = 2f;
+    float _initEffectTime = 1f;
     float _effectTime = 0f;
+    public float EffectTime => _effectTime; 
 
     private void Awake()
     {
@@ -39,5 +40,18 @@ public class Net : MonoBehaviour
     public void ChangeEffectTime(float value)
     {
         _effectTime += value;
+    }
+
+    float _timer = 0f;
+    [SerializeField]
+    float _interval = 1f;
+    private void OnTriggerStay(Collider other)
+    {
+        _timer+= Time.deltaTime;
+        if (other.TryGetComponent(out EnemyController enemy) && _timer>_interval)
+        {
+            enemy.Damage(_damage);
+            _timer = 0f;
+        }
     }
 }

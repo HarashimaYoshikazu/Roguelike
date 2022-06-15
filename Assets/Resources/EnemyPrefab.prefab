@@ -113,7 +113,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dropItem: {fileID: 3382009969365706847, guid: c28c8e12996bb054d82a3d5e8207d488, type: 3}
-  _hp: 1
+  _hp: 3
   _damage: 1
 --- !u!54 &4244900085869974067
 Rigidbody:

@@ -27,12 +27,13 @@ public class SkillButton : MonoBehaviour
     {
         for (int i = 0; i < _selectButtonList.Count; i++)
         {
+            var index = i;
             _selectedSkill.Add(null);
             _selectTextList.Add(_selectButtonList[i].GetComponentInChildren<Text>());
 
             Button button = _selectButtonList[i].GetComponent<Button>();
             button.onClick.AddListener(() =>
-            { OnClick(i); });
+            { OnClick(index); });
             
             
         }
@@ -77,7 +78,7 @@ public class SkillButton : MonoBehaviour
     {
         Debug.Log($"ÉJÉEÉìÉg{_selectedSkill.Count}");
         Debug.Log($"à¯êî{selectedIndex}");
-        GameManager.Instance.LevelUpSelect(_selectedSkill[selectedIndex-1]);
+        GameManager.Instance.LevelUpSelect(_selectedSkill[selectedIndex]);
         _selectPanel.SetActive(false);
         GameManager.Instance.GameCycle.StateMachine.Dispatch((int)StateEvent.GameStart);
     }

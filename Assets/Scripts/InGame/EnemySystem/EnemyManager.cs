@@ -60,7 +60,7 @@ public class EnemyManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Debug.Log("êî"+_enemyPool.ObjectList.Count);
+        //Debug.Log("êî"+_enemyPool.ObjectList.Count);
         if (!GameManager.Instance.IsPauseFlag)
         {
             _timer += Time.deltaTime;

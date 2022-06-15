@@ -4,8 +4,8 @@ public class NetSkill : ISkill
     public SkillDef SkillId => SkillDef.NetAttack;
 
     float _timer = 0f;
-    float _interval = 1f;
-    bool[] _weaponActive = null;
+    float _interval = 3f;
+    bool[] _weaponActive = new bool[4];
     public void LevelUp()
     {
         bool hoge = false;
@@ -24,7 +24,11 @@ public class NetSkill : ISkill
             foreach (var n in GameManager.Instance.Player.Weapons)
             {
                 n.ChangeDamage(1);
-                n.ChangeEffectTime(1f);
+                if (n.EffectTime+0.5f < _interval)
+                {
+                    n.ChangeEffectTime(0.5f);
+                }
+                
             }            
         }
     }
@@ -32,6 +36,7 @@ public class NetSkill : ISkill
     public void SetUp()
     {
         _weaponActive = new bool[GameManager.Instance.Player.Weapons.Length];
+        _weaponActive[0] = true;
     }
 
     public void Update()

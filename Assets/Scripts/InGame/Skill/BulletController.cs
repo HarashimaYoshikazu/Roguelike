@@ -24,7 +24,6 @@ public class BulletController : MonoBehaviour, IDestroy
 
     void Update()
     {
-        Debug.Log(_speed);
         _speed = Random.Range(_initSpeed-4f, _initSpeed+10f);
         transform.position += _targetVec * _speed * Time.deltaTime;
 
