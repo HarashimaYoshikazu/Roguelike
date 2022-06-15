@@ -9,7 +9,9 @@ public class EnemyController : MonoBehaviour, IDestroy
     GameObject _dropItem = null;
 
     [SerializeField]
-    int _hp = 1;
+    int _initHP = 3;
+
+    int _hp = 0;
 
     [SerializeField, Tooltip("プレイヤーに与えるダメージ")]
     int _damage = 1;
@@ -36,6 +38,7 @@ public class EnemyController : MonoBehaviour, IDestroy
         {
             Vector3 dir = GameManager.Instance.Player.transform.position - transform.position;
 
+            this.transform.forward = dir;
             _rigidbody.velocity = dir.normalized * 3f;
         }
     }
@@ -43,6 +46,7 @@ public class EnemyController : MonoBehaviour, IDestroy
     public void SetPosition(Vector3 position)
     {
         this.transform.position = position;
+        _hp = _initHP;
     }
 
 
