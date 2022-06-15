@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour, IDestroy
 {
-    Rigidbody _rigidbody;
 
     [SerializeField, Tooltip("ドロップする経験値")]
     GameObject _dropItem = null;
@@ -15,7 +14,7 @@ public class EnemyController : MonoBehaviour, IDestroy
 
     [SerializeField, Tooltip("プレイヤーに与えるダメージ")]
     int _damage = 1;
-    //bool _isMove = true;
+
 
     private void Start()
     {
@@ -23,7 +22,6 @@ public class EnemyController : MonoBehaviour, IDestroy
         {
             _dropItem = Resources.Load<GameObject>("dango");
         }
-        _rigidbody = GetComponent<Rigidbody>();
     }
     private void FixedUpdate()
     {
@@ -32,14 +30,16 @@ public class EnemyController : MonoBehaviour, IDestroy
 
     }
 
+    Vector3 _velocity;
     private void Move()
     {
         if (!GameManager.Instance.IsPauseFlag)
         {
-            Vector3 dir = GameManager.Instance.Player.transform.position - transform.position;
-            dir.y = 0f;
-            if (dir != Vector3.zero) this.transform.forward = dir;
-            _rigidbody.velocity = dir.normalized * 3f;
+            _velocity += (GameManager.Instance.Player.transform.position - transform.position) * 3;
+            _velocity *= 0.5f;
+            _velocity.Normalize();
+            transform.position += _velocity * Time.deltaTime;
+            this.transform.forward = _velocity;
         }
     }
 
@@ -69,7 +69,9 @@ public class EnemyController : MonoBehaviour, IDestroy
 
     public void DestroyObject()
     {
-        Instantiate(_dropItem, this.transform.position, Quaternion.identity);
+        Vector3 vec = this.transform.position;
+        vec.y = 0.5f;
+        Instantiate(_dropItem, vec, Quaternion.identity);
         GameManager.Instance.EnemyManager.EnemyPool.Return(this);
     }
 }

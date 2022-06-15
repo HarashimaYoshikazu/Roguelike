@@ -15,23 +15,22 @@ public class BulletController : MonoBehaviour, IDestroy
     [SerializeField]
     float _interval = 4f;
     float _timer = 0f;
+    Rigidbody _rb;
 
     EnemyController _target;
     private void Start()
     {
+        _rb = GetComponent<Rigidbody>();
         _speed = _initSpeed;
     }
 
-    void Update()
+    private void FixedUpdate()
     {
-        _speed = Random.Range(_initSpeed-4f, _initSpeed+10f);
+        _speed = Random.Range(_initSpeed - 4f, _initSpeed + 10f);
         transform.position += _targetVec * _speed * Time.deltaTime;
 
-        _target = null;
-
-
         _timer += Time.deltaTime;
-        if (_timer>_interval)
+        if (_timer > _interval)
         {
             _timer = 0f;
             DestroyObject();
@@ -52,14 +51,14 @@ public class BulletController : MonoBehaviour, IDestroy
         //TODO obj‚Ü‚Å“®‚­
         Vector3 dis = obj.transform.position - this.transform.position  ;
         _targetVec = dis;
+        _targetVec.y = 0f;
         _targetVec.Normalize();
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.TryGetComponent(out EnemyController enemy))
-        {
-            
+        {          
             enemy.Damage(_damage);
             DestroyObject();
         }
