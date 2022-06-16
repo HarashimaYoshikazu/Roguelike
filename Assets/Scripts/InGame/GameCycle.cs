@@ -66,7 +66,7 @@ public class GameCycle : MonoBehaviour
         protected override void OnEnter(State prevState)
         {
             //Debug.Log("はじまりEnter");            
-            GameManager.Instance.IsPause(true,"ボタンで開始");
+            GameManager.Instance.IsPause(true,"");
             
         }
 
