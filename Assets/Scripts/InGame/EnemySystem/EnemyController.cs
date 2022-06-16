@@ -29,7 +29,7 @@ public class EnemyController : MonoBehaviour, IDestroy
         }
         if (!_dropItem)
         {
-            _dropItem = Resources.Load<GameObject>("dango");
+            _dropItem = Resources.Load<GameObject>("Mushroom_02 (1)");
         }
     }
     private void FixedUpdate()

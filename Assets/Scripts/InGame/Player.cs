@@ -32,7 +32,7 @@ public class Player : MonoBehaviour
     {        
         _bulletPool = new GenericObjectPool<BulletController>(_bulletController,_bulletParent);
         GameManager.Instance.SetPlayer(this);
-        AddSkill(1);
+        AddSkill(2);
     }
 
 

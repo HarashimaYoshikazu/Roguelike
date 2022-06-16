@@ -116,8 +116,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c48a668713119214b9d6a8b4aad7a537, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _dropItem: {fileID: 0}
-  _initHP: 3
+  _dropItem: {fileID: 7184621370616257072, guid: 4aa3c027e2000a742af5dc4c35b2bf92, type: 3}
+  _initHP: 5
   _damage: 1
   _animator: {fileID: 0}
   _probability: 400

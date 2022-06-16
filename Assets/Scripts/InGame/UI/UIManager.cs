@@ -21,6 +21,7 @@ public class UIManager : MonoBehaviour
     private void Start()
     {
         _hpSlider.maxValue = GameManager.Instance.HP;
+        SetExpMaxValue(GameData.ExpTable[0]);
     }
 
     public void SetActiveText(bool isActive,string text)

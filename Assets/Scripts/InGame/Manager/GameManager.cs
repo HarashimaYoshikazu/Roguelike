@@ -13,6 +13,8 @@ public class GameManager : Singleton<GameManager>
     /// <summary>ŒoŒ±’l•Ï”</summary>
     public int Exp => _exp;
 
+    private int _stackExp = 0;
+
     private int _level = 1;
     /// <summary>ƒŒƒxƒ‹•Ï”</summary>
     public int Level => _level;
@@ -72,25 +74,35 @@ public class GameManager : Singleton<GameManager>
     /// </summary>
     public void Reset()
     {
-        _UIManager.SetExpMaxValue(GameData.ExpTable[_level]);
+        _UIManager.SetExpMaxValue(GameData.ExpTable[_level-1]);
         _hp = _player.InitHP;
         _UIManager.UpdateHPSlider(_hp);
         _player.InitPos();
         _player.ResetSkill();
-        _player.AddSkill(1);
+        _player.AddSkill(2);
         _enemyManager.ResetAllEnemy();
         _playerCon.ResetSpeed();
+
+        //FIXME
+        var objs = GameObject.FindObjectsOfType<HealItem>();
+        foreach (var i in objs)
+        {
+            i.gameObject.SetActive(true);
+        }
     }
 
     public void GetExp(int value)
     {
         _exp += value;
-        _UIManager.UpdateExpSlider(_exp);
-        if(GameData.ExpTable.Count >_level && GameData.ExpTable[_level]< _exp)
+        _stackExp += value;
+        _UIManager.UpdateExpSlider(_stackExp);
+        if(GameData.ExpTable.Count >_level && GameData.ExpTable[_level-1]< _exp)
         {
+            _stackExp = 0;
             _level++;
             _gameCycle.StateMachine.Dispatch((int)StateEvent.LevelUp);
-            _UIManager.SetExpMaxValue(GameData.ExpTable[_level]);
+            _UIManager.UpdateExpSlider(_stackExp);
+            _UIManager.SetExpMaxValue(GameData.ExpTable[_level-1]);
         }
     }
 
