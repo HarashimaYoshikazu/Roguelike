@@ -43,19 +43,19 @@ public class GameCycle : MonoBehaviour
     public void GoIngame()
     {
         _stateMachine.Dispatch((int)StateEvent.GameStart);
-        _buttons[0].SetActive(false);
+        _buttons[0]?.SetActive(false);
     }
     public void GoResult()
     {
         _stateMachine.Dispatch((int)StateEvent.GameOver);
-        _buttons[1].SetActive(true);
+        _buttons[1]?.SetActive(true);
     }
 
     public void GoStart()
     {
         _stateMachine.Dispatch((int)StateEvent.ReStart);
-        _buttons[1].SetActive(false);
-        _buttons[0].SetActive(true);
+        _buttons[1]?.SetActive(false);
+        _buttons[0]?.SetActive(true);
     }
 
     private void Update()
@@ -70,7 +70,7 @@ public class GameCycle : MonoBehaviour
             //Debug.Log("ÇÕÇ∂Ç‹ÇËEnter");            
             GameManager.Instance.IsPause(true,"");
             
-        }
+;        }
 
         protected override void OnUpdate()
         {
