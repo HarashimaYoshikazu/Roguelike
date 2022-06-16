@@ -17,6 +17,10 @@ public class EnemyController : MonoBehaviour, IDestroy
 
     [SerializeField]
     Animator _animator;
+
+    [SerializeField]
+    int _probability = 20;
+    public int Probability => _probability;
     private void Start()
     {
         if (!_animator)

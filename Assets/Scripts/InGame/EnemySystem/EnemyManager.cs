@@ -12,7 +12,7 @@ public class EnemyManager : MonoBehaviour
 
     [Header("敵関係")]
     [SerializeField,Tooltip("敵のプレハブ")]
-    EnemyController _enemyPrefab;
+    EnemyController[] _enemyPrefabs;
 
     [SerializeField,Tooltip("敵の生成先の親オブジェクト")]
     Transform _enemyParent;
@@ -41,7 +41,7 @@ public class EnemyManager : MonoBehaviour
         GameManager.Instance.SetEnemyManager(this);
 
         //オブジェクトプールを生成
-        _enemyPool = new GenericObjectPool<EnemyController>(_enemyPrefab, _enemyParent);
+        _enemyPool = new GenericObjectPool<EnemyController>(_enemyPrefabs[0], _enemyParent);
 
         _expObjectPool = new GenericObjectPool<Exp>(_expPrefab,_expParent);
 

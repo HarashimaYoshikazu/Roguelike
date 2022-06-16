@@ -152,3 +152,4 @@ MonoBehaviour:
   _dropItem: {fileID: 0}
   _initHP: 3
   _damage: 1
+  _animator: {fileID: 0}
