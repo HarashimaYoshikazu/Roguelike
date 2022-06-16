@@ -58,7 +58,7 @@ public class GameManager : Singleton<GameManager>
         Debug.Log($"åªç›ÇÃHPÅF{_hp}");
         if(_hp<=0)
         {
-            _gameCycle.StateMachine.Dispatch((int)StateEvent.GameOver);
+            _gameCycle.GoResult();
         }
     }
 

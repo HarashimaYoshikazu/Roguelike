@@ -47,6 +47,7 @@ public class EnemyManager : MonoBehaviour
 
         //”jŠü‚³‚ê‚½‚Æ‚«‚ÉPool‚ğ‰ğ•ú‚·‚é
         this.OnDestroyAsObservable().Subscribe(_ => _enemyPool.Dispose()).AddTo(this);
+        this.OnDestroyAsObservable().Subscribe(_ => _expObjectPool.Dispose()).AddTo(this);
 
         //ƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚½‚ç¶¬
         _button.OnClickAsObservable()
@@ -89,5 +90,6 @@ public class EnemyManager : MonoBehaviour
     public void ResetAllEnemy()
     {
        _enemyPool.ReturnAllObject();
+        _expObjectPool.ReturnAllObject();
     }
 }

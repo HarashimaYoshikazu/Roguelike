@@ -17,7 +17,12 @@ public class Exp : MonoBehaviour,IDestroy
         if (other.CompareTag("Player"))
         {
             GameManager.Instance.GetExp(_addExp);
-            DestroyObject();
+            GameManager.Instance.EnemyManager.ExpPool.Return(this);
         }
+    }
+
+    public void SetPos(Vector3 pos)
+    {
+        this.transform.position = pos;
     }
 }

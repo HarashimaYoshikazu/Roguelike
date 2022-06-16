@@ -8,6 +8,8 @@ public class GameCycle : MonoBehaviour
     StateMachine<GameCycle> _stateMachine = null;
     public StateMachine<GameCycle> StateMachine => _stateMachine;
 
+    [SerializeField]
+    GameObject[] _buttons;
 
     private void Awake()
     {
@@ -33,20 +35,22 @@ public class GameCycle : MonoBehaviour
         _stateMachine.StartSetUp<StartState>();
     }
 
-    //ボタンデバッグ用
-    //※消す
     public void GoIngame()
     {
         _stateMachine.Dispatch((int)StateEvent.GameStart);
+        _buttons[0].SetActive(false);
     }
     public void GoResult()
     {
         _stateMachine.Dispatch((int)StateEvent.GameOver);
+        _buttons[1].SetActive(true);
     }
 
     public void GoStart()
     {
         _stateMachine.Dispatch((int)StateEvent.ReStart);
+        _buttons[1].SetActive(false);
+        _buttons[0].SetActive(true);
     }
 
     private void Update()
@@ -60,6 +64,7 @@ public class GameCycle : MonoBehaviour
         {
             //Debug.Log("はじまりEnter");            
             GameManager.Instance.IsPause(true,"ボタンで開始");
+            
         }
 
         protected override void OnUpdate()

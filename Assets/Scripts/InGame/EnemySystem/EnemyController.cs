@@ -15,9 +15,14 @@ public class EnemyController : MonoBehaviour, IDestroy
     [SerializeField, Tooltip("プレイヤーに与えるダメージ")]
     int _damage = 1;
 
-
+    [SerializeField]
+    Animator _animator;
     private void Start()
     {
+        if (!_animator)
+        {
+            _animator = GetComponent<Animator>();
+        }
         if (!_dropItem)
         {
             _dropItem = Resources.Load<GameObject>("dango");
@@ -35,11 +40,16 @@ public class EnemyController : MonoBehaviour, IDestroy
     {
         if (!GameManager.Instance.IsPauseFlag)
         {
+            _animator.SetBool("IsWalk",true);
             _velocity += (GameManager.Instance.Player.transform.position - transform.position) * 3;
             _velocity *= 0.5f;
             _velocity.Normalize();
             transform.position += _velocity * Time.deltaTime;
             this.transform.forward = _velocity;
+        }
+        else
+        {
+            _animator.SetBool("IsWalk", false);
         }
     }
 
@@ -54,6 +64,7 @@ public class EnemyController : MonoBehaviour, IDestroy
     {
         if (other.CompareTag("Player"))
         {
+            _animator.SetTrigger("Attack");
             GameManager.Instance.ChangeHP(-(_damage));         
         }
     }
@@ -61,6 +72,7 @@ public class EnemyController : MonoBehaviour, IDestroy
     public void Damage(int dmg)
     {
         _hp -= dmg;
+        _animator.SetTrigger("Damage");
         if (_hp<=0)
         {
             DestroyObject();
@@ -71,7 +83,8 @@ public class EnemyController : MonoBehaviour, IDestroy
     {
         Vector3 vec = this.transform.position;
         vec.y = 0.5f;
-        Instantiate(_dropItem, vec, Quaternion.identity);
+        var exp = GameManager.Instance.EnemyManager.ExpPool.Rent();
+        exp.SetPos(vec);
         GameManager.Instance.EnemyManager.EnemyPool.Return(this);
     }
 }
