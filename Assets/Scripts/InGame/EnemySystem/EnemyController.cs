@@ -68,6 +68,7 @@ public class EnemyController : MonoBehaviour, IDestroy
     {
         if (other.CompareTag("Player") && !GameManager.Instance.IsPauseFlag)
         {
+            other.GetComponent<PlayerController>().DamageAnim();
             _animator.SetTrigger("Attack");
             GameManager.Instance.ChangeHP(-(_damage));         
         }

@@ -65,4 +65,14 @@ public class PlayerController : MonoBehaviour
     {
         _speed += value;
     }
+
+    public void IsDeathAnim(bool flag)
+    {
+        _anim.SetBool("isDeath",flag);
+    }
+
+    public void DamageAnim()
+    {
+        _anim.SetTrigger("Damage");
+    }
 }

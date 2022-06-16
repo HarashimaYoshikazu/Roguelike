@@ -65,6 +65,7 @@ public class GameManager : Singleton<GameManager>
         Debug.Log($"åªç›ÇÃHPÅF{_hp}");
         if(_hp<=0)
         {
+            _playerCon.IsDeathAnim(true);
             _gameCycle.GoResult();
         }
     }
@@ -85,6 +86,7 @@ public class GameManager : Singleton<GameManager>
         _player.AddSkill(2);
         _enemyManager.ResetAllEnemy();
         _playerCon.ResetSpeed();
+        PlayerCon.IsDeathAnim(false);
 
         //FIXME
         var objs = GameObject.FindObjectsOfType<HealItem>();
