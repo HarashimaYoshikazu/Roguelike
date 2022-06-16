@@ -55,12 +55,12 @@ public class GameManager : Singleton<GameManager>
     /// <summary>エネミーマネージャークラス</summary>
     EnemyManager _enemyManager = null;
     public EnemyManager EnemyManager => _enemyManager;
+
     public void SetEnemyManager(EnemyManager enemyma) { _enemyManager = enemyma; }
 
     public void ChangeHP(int value)
     {
-        Mathf.Clamp(_hp,0, _player.InitHP);
-        _hp += value;
+        _hp=　Mathf.Clamp(_hp+value,0, _player.InitHP);
         _UIManager.UpdateHPSlider(_hp);
         Debug.Log($"現在のHP：{_hp}");
         if(_hp<=0)
@@ -76,6 +76,9 @@ public class GameManager : Singleton<GameManager>
     {
         _UIManager.SetExpMaxValue(GameData.ExpTable[_level-1]);
         _hp = _player.InitHP;
+        _exp = 0;
+        _stackExp = 0;
+        _UIManager.UpdateExpSlider(_exp);
         _UIManager.UpdateHPSlider(_hp);
         _player.InitPos();
         _player.ResetSkill();

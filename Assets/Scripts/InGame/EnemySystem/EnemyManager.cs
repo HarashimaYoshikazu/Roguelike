@@ -59,12 +59,23 @@ public class EnemyManager : MonoBehaviour
 
     }
 
+    [SerializeField]
+    float _stackTime = 10f;
+    [SerializeField]
+    float _decreeseInterval = 0.15f;
     private void FixedUpdate()
     {
         //Debug.Log("”"+_enemyPool.ObjectList.Count);
         if (!GameManager.Instance.IsPauseFlag)
         {
             _timer += Time.deltaTime;
+            if (_timer>_stackTime)
+            {
+                _stackTime += _stackTime;
+                float val = _interval - _decreeseInterval;
+                _interval = Mathf.Clamp(_interval,0.01f,10f);
+            }
+
             if (_timer > _interval)
             {
                 _timer = 0f;
@@ -76,7 +87,7 @@ public class EnemyManager : MonoBehaviour
 
     public void AddEnemy(int i)
     {
-        i = Mathf.Clamp(i,0, _enemyPrefabs.Length);
+        i = Mathf.Clamp(i,0, _enemyPrefabs.Length-1);
         _enemyPool.AddPrefab(_enemyPrefabs[i], _enemyPrefabs[i].Probability);
     }
 

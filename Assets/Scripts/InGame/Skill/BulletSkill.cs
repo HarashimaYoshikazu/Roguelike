@@ -8,7 +8,7 @@ public class BulletSkill : ISkill
     public SkillDef SkillId => SkillDef.Bullet;
 
     float _timer = 0f;
-    float _interval = 1f;
+    float _interval = 2f;
     int _bulletValue = 1;
 
     public void SetUp()
@@ -19,6 +19,7 @@ public class BulletSkill : ISkill
     public void LevelUp()
     {
         _bulletValue++;
+        _interval -= 0.2f;
     }
 
     public void Update()

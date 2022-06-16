@@ -6,6 +6,8 @@ using State = StateMachine<GameCycle>.State;
 public class GameCycle : MonoBehaviour
 {
     StateMachine<GameCycle> _stateMachine = null;
+
+    public float timer = 0f;
     public StateMachine<GameCycle> StateMachine => _stateMachine;
 
     [SerializeField]
@@ -127,7 +129,6 @@ public class GameCycle : MonoBehaviour
 
     class InGameState : State
     {
-        float _timer = 0f;
         float _stackEnemyTime = 0f;
 
         int stack = 0;
@@ -138,12 +139,9 @@ public class GameCycle : MonoBehaviour
         }
         protected override void OnUpdate()
         {
-            _timer += Time.deltaTime;
-            if (_timer > Owner._timeLimit)
-            {
-                stateMachine.Dispatch((int)StateEvent.GameOver);
-            }
-            else if(_timer > _stackEnemyTime + (Owner._timeLimit /5))
+            Owner.timer += Time.deltaTime;
+            GameManager.Instance.UIManager.UpdateTimerText((int)Owner.timer);
+            if(Owner.timer > _stackEnemyTime + (Owner._timeLimit /5))
             {
                 stack++;
                 _stackEnemyTime += Owner._timeLimit / 5;
@@ -159,7 +157,7 @@ public class GameCycle : MonoBehaviour
 
         protected override void OnExit(State nextState)
         {
-            _timer = 0f;
+            
         }
     }
 
@@ -168,7 +166,14 @@ public class GameCycle : MonoBehaviour
         protected override void OnEnter(State prevState)
         {
             //Debug.Log("リザルトEnter");
-            GameManager.Instance.IsPause(true, "ゲームオーバー");
+            if (GameManager.Instance.HP>=0)
+            {
+                int min =(int) Owner.timer / 60;
+                int sec = (int)Owner.timer - 60 * min;
+                GameManager.Instance.IsPause(true, $"ゲームオーバー\n{min}分{sec}秒");
+                Owner.timer = 0f;
+            }
+            
         }
 
         protected override void OnUpdate()

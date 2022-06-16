@@ -13,6 +13,9 @@ public class UIManager : MonoBehaviour
     [SerializeField, Tooltip("経験値スライダー")]
     Slider _expSlider = null;
 
+    [SerializeField, Tooltip("タイマー")]
+    Text _timerText = null;
+
     private void Awake()
     {
         GameManager.Instance.SetUIManager(this);   
@@ -43,5 +46,11 @@ public class UIManager : MonoBehaviour
     public void UpdateExpSlider(int value)
     {
         _expSlider.value = value;
+    }
+    public void UpdateTimerText(int time)
+    {
+        int min = time / 60;        
+        int sec = time - 60 * min;
+        _timerText.text = $"{min.ToString("D2")}:{sec.ToString("D2")}";
     }
 }

@@ -26,7 +26,11 @@ public class BulletController : MonoBehaviour, IDestroy
 
     private void FixedUpdate()
     {
-        _speed = Random.Range(_initSpeed - 4f, _initSpeed + 10f);
+        if (GameManager.Instance.IsPauseFlag)
+        {
+            return;
+        }
+        //_speed = Random.Range(_initSpeed - 4f, _initSpeed + 10f);
         transform.position += _targetVec * _speed * Time.deltaTime;
 
         _timer += Time.deltaTime;
@@ -57,7 +61,7 @@ public class BulletController : MonoBehaviour, IDestroy
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.TryGetComponent(out EnemyController enemy))
+        if (other.TryGetComponent(out EnemyController enemy) &&!GameManager.Instance.IsPauseFlag)
         {          
             enemy.Damage(_damage);
             DestroyObject();

@@ -37,7 +37,7 @@ public class GameData
     //ToDo GSS‚©‚ç’l‚ğ“Ç‚İ‚Ş
     static private List<int> _expTable = new List<int>()
     {
-        10,20,30,40,50,60,70,80,90,100
+        5,10,20,30,40,50,60,70,80,90,100
     }
     ;
     /// <summary>
