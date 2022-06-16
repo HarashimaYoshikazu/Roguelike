@@ -62,4 +62,9 @@ public class BulletSkill : ISkill
             _timer = 0;
         }
     }
+
+    public void Reset()
+    {
+        _bulletValue = 1;
+    }
 }

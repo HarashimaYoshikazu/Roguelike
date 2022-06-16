@@ -56,4 +56,12 @@ public class NetSkill : ISkill
             _timer = 0f;
         }
     }
+
+    public void Reset()
+    {
+        for(int i = 0;i<_weaponActive.Length;i++)
+        {
+            _weaponActive[i] = false;
+        }
+    }
 }

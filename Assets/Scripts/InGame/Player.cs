@@ -14,6 +14,8 @@ public class Player : MonoBehaviour
 
     List<ISkill> _skillList = new List<ISkill>();
 
+    List<ISkill> _pasiveList = new List<ISkill>();
+
     [SerializeField,Tooltip("弾のプレハブ")]
     BulletController _bulletController = null;
     [SerializeField, Tooltip("弾の親オブジェクト")]
@@ -31,7 +33,6 @@ public class Player : MonoBehaviour
         _bulletPool = new GenericObjectPool<BulletController>(_bulletController,_bulletParent);
         GameManager.Instance.SetPlayer(this);
         AddSkill(1);
-        AddSkill(2);
     }
 
 
@@ -65,6 +66,12 @@ public class Player : MonoBehaviour
                 case SkillDef.Bullet:
                     newSkill = new BulletSkill();
                     break;
+                case SkillDef.SpeedUp:
+                    newSkill = new SpeedPassive();
+                    break;
+                case SkillDef.Heal:
+                    newSkill = new Heal();
+                    break;
             }
 
             if (newSkill != null)
@@ -78,5 +85,10 @@ public class Player : MonoBehaviour
     public void InitPos()
     {
         this.transform.position = _initTransform.position;
+    }
+
+    public void ResetSkill()
+    {
+        _skillList.Clear();
     }
 }

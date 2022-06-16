@@ -66,7 +66,7 @@ public class EnemyController : MonoBehaviour, IDestroy
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && !GameManager.Instance.IsPauseFlag)
         {
             _animator.SetTrigger("Attack");
             GameManager.Instance.ChangeHP(-(_damage));         

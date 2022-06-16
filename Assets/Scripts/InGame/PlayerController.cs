@@ -20,7 +20,8 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        _speed = _initSpeed;
+        GameManager.Instance.SetPlayerCon(this);
+        ResetSpeed();
         if (!_rb)
         {
             _rb = GetComponent<Rigidbody>();
@@ -53,5 +54,15 @@ public class PlayerController : MonoBehaviour
         }
 
         _rb.velocity = dir.normalized * _speed + _rb.velocity.y * Vector3.up;
+    }
+
+    public void ResetSpeed()
+    {
+        _speed = _initSpeed;
+    }
+
+    public void ChangeSpeed(float value)
+    {
+        _speed += value;
     }
 }

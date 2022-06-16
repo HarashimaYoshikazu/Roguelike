@@ -25,11 +25,15 @@ public class GameManager : Singleton<GameManager>
     public bool IsPauseFlag => _isPauseFlag;
 
 
-
     /// <summary>Playerクラス</summary>
     Player _player = null;
     public Player Player => _player;
     public void SetPlayer(Player player) { _player = player; _hp = player.InitHP; }
+
+    /// <summary>PlayerControllerクラス</summary>
+    PlayerController _playerCon = null;
+    public PlayerController PlayerCon => _playerCon;
+    public void SetPlayerCon(PlayerController player) { _playerCon = player; }
 
     /// <summary>UIManagerクラス</summary>
     UIManager _UIManager = null;
@@ -55,6 +59,7 @@ public class GameManager : Singleton<GameManager>
     {
         Mathf.Clamp(_hp,0, _player.InitHP);
         _hp += value;
+        _UIManager.UpdateHPSlider(_hp);
         Debug.Log($"現在のHP：{_hp}");
         if(_hp<=0)
         {
@@ -67,18 +72,25 @@ public class GameManager : Singleton<GameManager>
     /// </summary>
     public void Reset()
     {
+        _UIManager.SetExpMaxValue(GameData.ExpTable[_level]);
         _hp = _player.InitHP;
+        _UIManager.UpdateHPSlider(_hp);
         _player.InitPos();
+        _player.ResetSkill();
+        _player.AddSkill(1);
         _enemyManager.ResetAllEnemy();
+        _playerCon.ResetSpeed();
     }
 
     public void GetExp(int value)
     {
         _exp += value;
+        _UIManager.UpdateExpSlider(_exp);
         if(GameData.ExpTable.Count >_level && GameData.ExpTable[_level]< _exp)
         {
             _level++;
             _gameCycle.StateMachine.Dispatch((int)StateEvent.LevelUp);
+            _UIManager.SetExpMaxValue(GameData.ExpTable[_level]);
         }
     }
 
@@ -88,21 +100,8 @@ public class GameManager : Singleton<GameManager>
     /// <param name="table"></param>
     public void LevelUpSelect(SkillInfo table)
     {
-        switch (table.Type)
-        {
-            case SelectType.Skill:
-                Debug.Log($"{table.Name}がレベルアップ");
-                _player.AddSkill(table.TypeID);
-                break;
-
-            case SelectType.Passive:
-                _passive.Add(table.TypeID);
-                break;
-
-            case SelectType.Execute:
-
-                break;
-        }
+        Debug.Log($"{table.Name}がレベルアップ");
+        _player.AddSkill(table.TypeID);
     }
 
     public void IsPause(bool ispause, string pausetext)
