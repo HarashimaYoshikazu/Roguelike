@@ -395,7 +395,7 @@ Transform:
   m_GameObject: {fileID: 5389836902412345169}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 4.945285, y: -0.06561184, z: 1.0131679}
-  m_LocalScale: {x: 4, y: 4, z: 4}
+  m_LocalScale: {x: 5, y: 5, z: 5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3289945661872814932}
@@ -455,6 +455,7 @@ MonoBehaviour:
   _initHP: 3
   _damage: 1
   _animator: {fileID: 0}
+  _probability: 200
 --- !u!1 &6095263165405659369
 GameObject:
   m_ObjectHideFlags: 0

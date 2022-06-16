@@ -325,6 +325,7 @@ MonoBehaviour:
   _initHP: 3
   _damage: 1
   _animator: {fileID: 0}
+  _probability: 100
 --- !u!1 &5506247167550200374
 GameObject:
   m_ObjectHideFlags: 0

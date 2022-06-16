@@ -24,6 +24,7 @@ public class GenericObjectPool<T> : ObjectPool<T> where T : UnityEngine.Componen
     public GenericObjectPool(T prefab, Transform objectParent)
     {
         _objectPrefabList.Add(prefab);
+        _probList.Add(10);
         _parent = objectParent;
 
     }
@@ -51,13 +52,15 @@ public class GenericObjectPool<T> : ObjectPool<T> where T : UnityEngine.Componen
     protected override T CreateInstance()
     {
         int totalProb = _probList.Sum();
+       
         int rand = Random.Range(0, totalProb);
+        
 
         T obj = _objectPrefabList[0];
 
-        for (int i = 0; i < _objectList.Count; i++)
+        for (int i = 0; i < _objectPrefabList.Count; i++)
         {
-            if (rand < _probList[i]) //’Š‘I‚É“–‚½‚Á‚½‚ç
+            if (rand <= _probList[i]) //’Š‘I‚É“–‚½‚Á‚½‚ç
             {
                 obj = GameObject.Instantiate(_objectPrefabList[i]);
                 _objectList.Add(obj);

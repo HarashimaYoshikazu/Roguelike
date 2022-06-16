@@ -11,6 +11,9 @@ public class GameCycle : MonoBehaviour
     [SerializeField]
     GameObject[] _buttons;
 
+    [SerializeField]
+    float _timeLimit = 60f;
+
     private void Awake()
     {
         GameManager.Instance.SetGameCycle(this);
@@ -124,12 +127,29 @@ public class GameCycle : MonoBehaviour
 
     class InGameState : State
     {
+        float _timer = 0f;
+        float _stackEnemyTime = 0f;
+
+        int stack = 0;
+
         protected override void OnEnter(State prevState)
         {
             //Debug.Log("ÉQÅ[ÉÄíÜEnter");
         }
         protected override void OnUpdate()
         {
+            _timer += Time.deltaTime;
+            if (_timer > Owner._timeLimit)
+            {
+                stateMachine.Dispatch((int)StateEvent.GameOver);
+            }
+            else if(_timer > _stackEnemyTime + (Owner._timeLimit /5))
+            {
+                stack++;
+                _stackEnemyTime += Owner._timeLimit / 5;
+                GameManager.Instance.EnemyManager.AddEnemy(stack);
+            }
+
             //Debug.Log("ÉQÅ[ÉÄíÜUpdate");
             if (Input.GetKeyDown(KeyCode.Escape))
             {
@@ -139,7 +159,7 @@ public class GameCycle : MonoBehaviour
 
         protected override void OnExit(State nextState)
         {
-            //Debug.Log("ÉQÅ[ÉÄíÜExit");
+            _timer = 0f;
         }
     }
 

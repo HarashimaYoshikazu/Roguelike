@@ -41,7 +41,7 @@ public class EnemyManager : MonoBehaviour
         GameManager.Instance.SetEnemyManager(this);
 
         //オブジェクトプールを生成
-        _enemyPool = new GenericObjectPool<EnemyController>(_enemyPrefabs[0], _enemyParent);
+        _enemyPool = new GenericObjectPool<EnemyController>(_enemyPrefabs[0], _enemyPrefabs[0].Probability, _enemyParent);
 
         _expObjectPool = new GenericObjectPool<Exp>(_expPrefab,_expParent);
 
@@ -73,6 +73,13 @@ public class EnemyManager : MonoBehaviour
         }
 
     }
+
+    public void AddEnemy(int i)
+    {
+        i = Mathf.Clamp(i,0, _enemyPrefabs.Length);
+        _enemyPool.AddPrefab(_enemyPrefabs[i], _enemyPrefabs[i].Probability);
+    }
+
     void EnemyRent()
     {
         //Debug.Log(GameManager.Instance.Player.transform.position);
