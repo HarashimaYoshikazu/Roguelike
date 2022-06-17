@@ -74,8 +74,7 @@ public class GameManager : Singleton<GameManager>
     /// リトライ時にPlayerや敵をリセットする関数
     /// </summary>
     public void Reset()
-    {
-        _UIManager.SetExpMaxValue(GameData.ExpTable[_level-1]);
+    {      
         _hp = _player.InitHP;
         _exp = 0;
         _stackExp = 0;
@@ -87,6 +86,9 @@ public class GameManager : Singleton<GameManager>
         _enemyManager.ResetAllEnemy();
         _playerCon.ResetSpeed();
         PlayerCon.IsDeathAnim(false);
+        _level = 1;
+        _UIManager.UpdateLevelUpText(_level);
+        _UIManager.SetExpMaxValue(GameData.ExpTable[_level - 1]);
 
         //FIXME
         var objs = GameObject.FindObjectsOfType<HealItem>();
@@ -108,6 +110,7 @@ public class GameManager : Singleton<GameManager>
             _gameCycle.StateMachine.Dispatch((int)StateEvent.LevelUp);
             _UIManager.UpdateExpSlider(_stackExp);
             _UIManager.SetExpMaxValue(GameData.ExpTable[_level-1]);
+            _UIManager.UpdateLevelUpText(_level);
         }
     }
 

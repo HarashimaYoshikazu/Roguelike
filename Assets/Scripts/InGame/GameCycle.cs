@@ -69,6 +69,7 @@ public class GameCycle : MonoBehaviour
         {
             //Debug.Log("ÇÕÇ∂Ç‹ÇËEnter");            
             GameManager.Instance.IsPause(true,"");
+            GameManager.Instance.UIManager.UpdateLevelUpText(1);
             
 ;        }
 

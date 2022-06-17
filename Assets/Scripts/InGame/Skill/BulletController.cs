@@ -18,8 +18,11 @@ public class BulletController : MonoBehaviour, IDestroy
     Rigidbody _rb;
 
     EnemyController _target;
+
+    [SerializeField]
+    TrailRenderer _trail;
     private void Start()
-    {
+    {        
         _rb = GetComponent<Rigidbody>();
         _speed = _initSpeed;
     }
@@ -43,6 +46,7 @@ public class BulletController : MonoBehaviour, IDestroy
 
     public void Shoot(GameObject obj)
     {
+        
         _target = obj.GetComponent<EnemyController>();
         if (!_target)
         {
@@ -53,6 +57,7 @@ public class BulletController : MonoBehaviour, IDestroy
         Vector3 vec = GameManager.Instance.Player.transform.position;
         vec.y = 0.5f;
         this.transform.position = vec;
+        _trail.enabled = true;
 
         //TODO obj‚Ü‚Å“®‚­
         Vector3 dis = obj.transform.position - this.transform.position  ;
@@ -72,6 +77,8 @@ public class BulletController : MonoBehaviour, IDestroy
 
     public void DestroyObject()
     {
+        _trail.enabled = false;
+        _timer = 0f;
         GameManager.Instance.Player.BulletPool.Return(this);
     }
 }

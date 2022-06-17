@@ -30,7 +30,7 @@ public class GameData
     {
         new SkillInfo(){Type =SelectType.Skill,TypeID =1,Name ="はちみつブレス",Level=0,Probability =50},
         new SkillInfo(){Type =SelectType.Skill,TypeID =2,Name ="花粉弾",Level=0,Probability =50},
-        new SkillInfo(){Type =SelectType.Skill,TypeID =3,Name ="スピードUP",Level=0,Probability =50},
+        new SkillInfo(){Type =SelectType.Skill,TypeID =3,Name ="スピード  UP",Level=0,Probability =50},
         new SkillInfo(){Type =SelectType.Skill,TypeID =4,Name ="回復",Level=0,Probability =50},
     };
 
