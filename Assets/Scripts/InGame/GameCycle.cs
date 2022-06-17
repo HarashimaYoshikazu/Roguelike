@@ -112,6 +112,7 @@ public class GameCycle : MonoBehaviour
         protected override void OnEnter(State prevState)
         {
             //Debug.Log("レベルアップEnter");
+            GameManager.Instance.Player.AudioPlay(3);
             GameManager.Instance.IsPause(true, "レベル選択");
             GameManager.Instance.SkillButton.SelectStart();
         }
@@ -172,6 +173,7 @@ public class GameCycle : MonoBehaviour
                 int sec = (int)Owner.timer - 60 * min;
                 GameManager.Instance.IsPause(true, $"ゲームオーバー\n{min}分{sec}秒");
                 Owner.timer = 0f;
+                GameManager.Instance.Player.AudioPlay(2);
             }
             
         }

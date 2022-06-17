@@ -48,6 +48,8 @@ public class BulletController : MonoBehaviour, IDestroy
         {
             return;
         }
+        GameManager.Instance.Player.AudioPlay(0);
+
         Vector3 vec = GameManager.Instance.Player.transform.position;
         vec.y = 0.5f;
         this.transform.position = vec;

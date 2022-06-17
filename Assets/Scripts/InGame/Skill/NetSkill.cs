@@ -53,6 +53,7 @@ public class NetSkill : ISkill
                 }
 
             }
+            GameManager.Instance.Player.AudioPlay(1);
             _timer = 0f;
         }
     }

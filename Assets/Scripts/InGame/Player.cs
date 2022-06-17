@@ -28,6 +28,11 @@ public class Player : MonoBehaviour
     GenericObjectPool<BulletController> _bulletPool;
     public GenericObjectPool<BulletController> BulletPool => _bulletPool;
 
+    [SerializeField]
+    AudioSource _audio = null;
+    [SerializeField]
+    AudioClip[] _clips = null;
+
     private void Awake()
     {        
         _bulletPool = new GenericObjectPool<BulletController>(_bulletController,_bulletParent);
@@ -90,5 +95,10 @@ public class Player : MonoBehaviour
     public void ResetSkill()
     {
         _skillList.Clear();
+    }
+
+    public void AudioPlay(int value)
+    {
+        _audio.PlayOneShot(_clips[value]);
     }
 }
