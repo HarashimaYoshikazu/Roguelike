@@ -6,21 +6,19 @@ using State = StateMachine<TestCycle>.State;
 public class TestCycle :MonoBehaviour
 {
     StateMachine<TestCycle> _statemachine = null;
-    // Start is called before the first frame update
 
     public enum StateChangeEvent
     {
         GameStart,
         GameOver,
         Retry
-
     }
-
 
     void Start()
     {
         _statemachine = new StateMachine<TestCycle>(this);
 
+        //‘JˆÚ‚ğ’è‹`
         _statemachine.AddTransition<StartState,InGameState>((int)StateChangeEvent.GameStart);
         _statemachine.AddTransition<InGameState,ResultState>((int)StateChangeEvent.GameOver);
         _statemachine.AddTransition<ResultState,StartState>((int)StateChangeEvent.Retry);
@@ -51,6 +49,8 @@ public class TestCycle :MonoBehaviour
         //_statemachine.Update();
     }
 
+
+    //State‚ÌéŒ¾
     class StartState : State
     {
         protected override void OnEnter(State prevState)

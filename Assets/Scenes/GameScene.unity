@@ -1434,6 +1434,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Mushroom_02 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 7184621370616257072, guid: 4aa3c027e2000a742af5dc4c35b2bf92, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7184621370616350224, guid: 4aa3c027e2000a742af5dc4c35b2bf92, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -27737,7 +27741,7 @@ PrefabInstance:
       objectReference: {fileID: 1206841946}
     - target: {fileID: 8414932997562208620, guid: 937846ec9cdbe8e4c9111aee8c838fed, type: 3}
       propertyPath: _initHP
-      value: 20
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8414932997562208620, guid: 937846ec9cdbe8e4c9111aee8c838fed, type: 3}
       propertyPath: _bulletParent
