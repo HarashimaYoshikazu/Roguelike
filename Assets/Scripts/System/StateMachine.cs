@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-/// ステートマシンクラス（書籍、動画を参考）
+/// ステートマシンクラス
 public class StateMachine<TOwner>
 {
     /// <summary>
@@ -12,11 +12,11 @@ public class StateMachine<TOwner>
         /// このステートを管理しているステートマシン
         /// </summary>
         protected StateMachine<TOwner> StateMachine => stateMachine;
-        internal StateMachine<TOwner> stateMachine;
+        public StateMachine<TOwner> stateMachine;
         /// <summary>
         /// 遷移の一覧
         /// </summary>
-        internal Dictionary<int, State> transitions = new Dictionary<int, State>();
+        public Dictionary<int, State> transitions = new Dictionary<int, State>();
         /// <summary>
         /// このステートのオーナー
         /// </summary>
@@ -25,7 +25,7 @@ public class StateMachine<TOwner>
         /// <summary>
         /// ステート開始
         /// </summary>
-        internal void Enter(State prevState)
+        public void Enter(State prevState)
         {
             OnEnter(prevState);
         }
@@ -37,7 +37,7 @@ public class StateMachine<TOwner>
         /// <summary>
         /// ステート更新
         /// </summary>
-        internal void Update()
+        public void Update()
         {
             OnUpdate();
         }
@@ -49,7 +49,7 @@ public class StateMachine<TOwner>
         /// <summary>
         /// ステート終了
         /// </summary>
-        internal void Exit(State nextState)
+        public void Exit(State nextState)
         {
             OnExit(nextState);
         }

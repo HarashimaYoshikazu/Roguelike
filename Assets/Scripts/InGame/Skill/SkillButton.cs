@@ -33,9 +33,7 @@ public class SkillButton : MonoBehaviour
 
             Button button = _selectButtonList[i].GetComponent<Button>();
             button.onClick.AddListener(() =>
-            { OnClick(index); });
-            
-            
+            { OnClick(index); });          
         }
     }
 
